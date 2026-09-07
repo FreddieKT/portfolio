@@ -1,6 +1,6 @@
 # freddie-portfolio
 
-Personal portfolio for **Freddie K.** — small AI tools, automation workflows, and terminal-native experiments.
+Personal portfolio for **Freddie K.** It collects current projects, experiments, and notes about technology I have tried.
 
 **[freddie-portfolio.pages.dev](https://freddie-portfolio.pages.dev)**
 

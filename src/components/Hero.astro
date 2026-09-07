@@ -11,10 +11,10 @@ interface Props {
 }
 
 const {
-  eyebrow = 'personal site / ongoing experiments',
-  title = 'Hey, I\'m Freddie.',
-  subtitle = 'I build small tools, automate the boring stuff, and tinker with AI systems. This is where I keep the things that actually work.',
-  categories = ['BUILDING', 'AUTOMATION', 'AI / AGENTS', 'OPEN SOURCE'],
+  eyebrow = 'personal site / things I am trying',
+  title = 'Hey, I’m Freddie.',
+  subtitle = 'Lately, I’ve been exploring AI tools and how they fit into my day-to-day life.',
+  categories = ['EXPERIMENTS', 'AUTOMATION', 'AI / AGENTS', 'OPEN SOURCE'],
 } = Astro.props;
 ---
 
@@ -24,8 +24,9 @@ const {
       <Image
         src={profileAboutImage}
         alt="Freddie, the builder behind Freddie K."
-        width={176}
-        height={235}
+        width={360}
+        height={480}
+        quality={95}
         loading="eager"
         decoding="async"
         class="hero-portrait-image"
@@ -82,23 +83,7 @@ const {
     background:
       linear-gradient(180deg, var(--terminal-overlay), transparent),
       var(--surface-terminal);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .hero-portrait-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0.35rem;
-    pointer-events: none;
-    border-radius: calc(var(--radius-md) - 0.25rem);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.05) 0,
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px,
-      transparent 5px
-    );
-    opacity: 0.2;
+    box-shadow: none;
   }
 
   .hero-portrait-image {
@@ -109,7 +94,6 @@ const {
     border-radius: calc(var(--radius-md) - 0.25rem);
     object-fit: cover;
     object-position: 50% 0%;
-    filter: saturate(0.95) contrast(1.02);
   }
 
   .hero-text-stack {
@@ -124,6 +108,7 @@ const {
     font-size: clamp(1.55rem, 3.15vw, 3.05rem);
     line-height: 1.05;
     letter-spacing: 0.018em;
+    word-spacing: -0.25em;
   }
 
   .hero-subtitle {
@@ -134,10 +119,6 @@ const {
   .hero-tags {
     margin: 0 1rem 1rem;
     justify-self: start;
-  }
-
-  :global(html[data-theme='light']) .hero-portrait-image {
-    filter: saturate(0.98) contrast(1.01);
   }
 
   @media (min-width: 720px) {
@@ -168,8 +149,8 @@ const {
       display: grid;
       grid-template-columns: repeat(2, auto);
       width: fit-content;
-      border-left: var(--border-dashed);
-      border-right: var(--border-dashed);
+      border-left: none;
+      border-right: none;
     }
 
     /* Reset the flex-based separator — doesn't work correctly when wrapping */
@@ -179,12 +160,12 @@ const {
 
     /* Column separator: even items (col 2) */
     .hero-tags > span:nth-child(even) {
-      border-left: var(--border-dashed);
+      border-left: none;
     }
 
     /* Row separator: second row items */
     .hero-tags > span:nth-child(n + 3) {
-      border-top: var(--border-dashed);
+      border-top: none;
     }
   }
 </style>

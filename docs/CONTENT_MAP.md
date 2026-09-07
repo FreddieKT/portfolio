@@ -1,138 +1,84 @@
-# Content Map
+# Content map
 
-## Hero
+## Home
 
-Primary headline:
+### Hero
 
-> BUILDING STRANGE TOOLS FOR REAL LIFE
+Headline:
 
-Subheading direction:
+> Hey, I'm Freddie.
 
-> AI agents, memory systems, terminal-native products, and creative operating systems by Freddie / Freddie K..
+Introduction:
 
-Reference-image subheading variant:
+> I like trying new technology for myself. This is where I keep what I have built, tested, and learned.
 
-> AI agents, memory systems, and terminal-native products that think in context, not in silos.
+Category labels:
 
-## Category Row
-
-Use compact labels below the hero copy:
-
-- AI INFRA
-- SYSTEMS
-- TERMINAL UX
+- EXPERIMENTS
+- AUTOMATION
+- AI / AGENTS
 - OPEN SOURCE
 
-## Terminal Demo
+### About preview
 
-Commands to show:
+Introduce Khant Thura Thaung as Freddie. Focus on curiosity, hands-on testing, and practical use. Do not claim expertise, business results, or production readiness without evidence.
 
-```bash
-afterglow --today
-unfog notes/
-hermes skills doctor
-promptglass watch
-```
+### Notes preview
 
-Terminal copy should be illustrative prototype output unless backed by real data.
+Describe the notes as records of things Freddie has tried and wants to remember.
 
-## Profile / Status Card
+## About
 
-Identity:
+The About page should explain:
 
-- Name: Freddie
-- Role: Builder @ Freddie K.
-- Status: BUILDING
+- Freddie likes testing new technology instead of only reading about it.
+- Projects often start with something he wants to understand or a repeated task.
+- A project earns more work only after the small version proves useful.
 
-Avatar/mascot:
+## Projects
 
-- Must be original Freddie K. art.
-- Must not copy Honcho’s mascot.
+Project copy must come from the current public repository and should link back to it.
 
-## Project Cards
+### X-Lab Agent Platform
 
-### AFTERGLOW
+A control plane for reviewed AI agent products. Focus on code-owned blueprints, organization separation, human review, and explicit permissions.
 
-**Label:** terminal memory
+Source: `https://github.com/FreddieKT/xlab-agent-platform`
 
-**Category:** DAILY RECALL AGENT
+### Project Rules
 
-**Summary:** End your session with tomorrow’s starting point.
+A shared set of workspace, Git, approval, and agent instructions.
 
-**Command:** `afterglow --today`
+Source: `https://github.com/FreddieKT/project-rules`
 
-### UNFOG
+### Kairos Daydreamer
 
-**Label:** decision clarity
+A local tool that finds related fragments in a selected note set and drafts a short brief. Public examples must use sanitized sources.
 
-**Category:** NOTE CLARITY ENGINE
+Source: `https://github.com/FreddieKT/kairos`
 
-**Summary:** Extract the real decision from messy notes, transcripts, and plans.
+## Notes
 
-**Command:** `unfog notes/`
+Current notes:
 
-### PROMPTGLASS
+- Why X-Lab keeps agent behavior in code
+- Project rules before more automation
+- What Kairos keeps local
 
-**Label:** prompt linting
+Notes should be based on public project evidence. Remove invented anecdotes, results, dates, and personal history.
 
-**Category:** PROMPT OBSERVER
+## Contact
 
-**Summary:** Find hidden prompt conflicts before they become model failures.
+Use only:
 
-**Command:** `promptglass watch`
+- GitHub: `https://github.com/FreddieKT`
+- X: `https://x.com/ktythaung`
+- Email: `ktythaung@gmail.com`
 
-### KAIROS LAB
+## Content rules
 
-**Label:** visual systems
-
-**Category:** EXPERIMENTAL SYSTEMS
-
-**Summary:** Pixel-cosmic experiments, motion logos, and symbolic interface studies.
-
-**Command:** `kairos lab list`
-
-## Systems / Metrics Strip
-
-Purpose:
-
-> Building composable tools that remember, reason, and improve.
-
-Safe MVP labels:
-
-- TOOLS BUILT
-- EXPERIMENTS
-- PROTOTYPE SIGNALS
-- SYSTEM STATUS
-
-Avoid fake live claims unless source data is available. If placeholder stats are used for visual fidelity, label them as demo/prototype values in code comments or copy.
-
-## About Section
-
-Should explain Freddie as a builder of:
-
-- AI agent workflows
-- terminal-native tools
-- memory systems
-- creative coding experiments
-- practical automation prototypes
-
-## Footer / Contact
-
-Recommended footer content:
-
-- `Freddie K.`
-- builder of strange tools for real life
-- GitHub link
-- X/Twitter link
-- Email/contact link
-
-## Exclusions
-
-Do not include:
-
-- KTM Cargo operations
-- n8n workflows
-- private business automations
-- internal logistics pricing
-- unrelated personal finance docs
-- Honcho brand copy, mascot, logo, or proprietary wording
+- Use current facts from public sources.
+- State project status plainly.
+- Do not present demo output as real usage data.
+- Do not include customer data, private notes, finance details, credentials, or relationship context.
+- Remove an old project when its description no longer matches current work.

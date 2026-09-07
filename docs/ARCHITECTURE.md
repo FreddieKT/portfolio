@@ -73,18 +73,17 @@ Project cards should be data-driven:
 export const projects = [
   {
     index: '01',
-    title: 'AFTERGLOW',
-    label: 'terminal memory',
-    category: 'DAILY RECALL AGENT',
-    summary: 'End your session with tomorrow’s starting point.',
-    command: 'afterglow --today',
-    output: ['generating digest...', 'memories captured', 'plan for tomorrow'],
-    status: 'concept'
+    title: 'X-LAB AGENT PLATFORM',
+    label: 'agent control plane',
+    category: 'AI PLATFORM',
+    summary: 'A control plane for running reviewed AI agent products across separate organizations.',
+    status: 'active development',
+    sourceUrl: 'https://github.com/FreddieKT/xlab-agent-platform'
   }
 ];
 ```
 
-If metrics are shown, keep them separate and clearly mark prototype placeholders unless backed by real data:
+Do not show project metrics unless a current public source supports them:
 
 ```ts
 export const demoMetrics = [

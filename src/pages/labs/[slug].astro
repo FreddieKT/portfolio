@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
 import PageSidebar from '../../components/PageSidebar.astro';
 
 import { projects, type Project } from '../../data/projects';
@@ -38,16 +39,15 @@ const sidebarItems = projects.map((p) => ({
     <div class="page-section frame combined-panel" data-animate="page-section">
       <div class="markdown-prose">
         <h1>{project.title}</h1>
-        <p class="meta"><strong>{project.category}</strong> &middot; {project.label} &middot; {project.date} &middot; {project.publisher}</p>
+        <p class="meta"><strong>{project.category}</strong> &middot; {project.label}</p>
 
         <h2>Summary</h2>
         <p>{project.summary}</p>
+        {project.image && <Image class="project-image" src={project.image} alt={project.imageAlt ?? project.title} widths={[480, 800, 1200]} sizes="(max-width: 720px) 90vw, 800px" loading="eager" />}
 
-        <h2>Problem</h2>
-        <p>{project.problem}</p>
+        {project.problem && <><h2>Problem</h2><p>{project.problem}</p></>}
 
-        <h2>What it does</h2>
-        <p>{project.does}</p>
+        {project.does && <><h2>What it does</h2><p>{project.does}</p></>}
 
         <h2>Stack</h2>
         <ul>
@@ -59,15 +59,10 @@ const sidebarItems = projects.map((p) => ({
         <h2>Status</h2>
         <p>{project.status}</p>
 
-        <h2>Next step</h2>
-        <p>{project.nextStep}</p>
+        {project.secondaryImage && <Image class="project-image" src={project.secondaryImage} alt={project.secondaryImageAlt ?? project.title} widths={[480, 800, 1200]} sizes="(max-width: 720px) 90vw, 800px" loading="lazy" />}
+        {project.nextStep && <><h2>Next step</h2><p>{project.nextStep}</p></>}
 
-        <h2>Terminal output</h2>
-        <ul>
-          {project.output.map((line) => (
-            <li>{line}</li>
-          ))}
-        </ul>
+        {project.sourceUrl && <><h2>Source</h2><p><a href={project.sourceUrl} target="_blank" rel="noreferrer">View the repository on GitHub ↗</a></p></>}
       </div>
     </div>
 
@@ -79,6 +74,7 @@ const sidebarItems = projects.map((p) => ({
 </PageLayout>
 
 <style>
+  .project-image { display: block; width: 100%; height: auto; border-radius: var(--radius-md); margin: 1rem 0; }
   .labs-detail {
     display: grid;
     gap: 1rem;
@@ -116,7 +112,7 @@ const sidebarItems = projects.map((p) => ({
     color: var(--foreground);
     margin: 2rem 0 0.75rem 0;
     padding-bottom: 0.25rem;
-    border-bottom: var(--border-dashed);
+    border-bottom: none;
     text-transform: uppercase;
   }
 
@@ -147,6 +143,7 @@ const sidebarItems = projects.map((p) => ({
 
   .project-nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;

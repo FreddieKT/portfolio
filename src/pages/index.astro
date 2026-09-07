@@ -27,21 +27,13 @@ import { projects } from '../data/projects';
         <section id="about" class="section-panel frame" aria-labelledby="about-title" data-animate="section-panel">
           <SectionLabel id="about-title">About</SectionLabel>
           <p class="mono-copy">
-            I'm Khant (Freddie). I like building things that solve real problems — mostly because
-            I got tired of doing the same thing twice. This site is a loose collection of tools,
-            experiments, and notes from the stuff I've been working on.
+            I’m figuring out where these tools are useful to me by trying them on projects.
+            This site is where I share those experiments, what worked, and what I’m still working out.
           </p>
           <a class="section-pointer" href="/about">More about me →</a>
         </section>
 
-        <section id="notes" class="section-panel frame" aria-labelledby="notes-title" data-animate="section-panel">
-          <SectionLabel id="notes-title">Notes</SectionLabel>
-          <p class="mono-copy">
-            Short write-ups on things I've learned: AI workflows, terminal tools, frontend tricks,
-            and whatever else sticks after the tabs are closed.
-          </p>
-          <a class="section-pointer" href="/notes">Read notes →</a>
-        </section>
+
 
         <section id="work" class="section-panel frame" aria-labelledby="work-title" data-animate="section-panel">
           <SectionLabel id="work-title">Projects & Experiments</SectionLabel>
@@ -119,8 +111,8 @@ import { projects } from '../data/projects';
 
   .content-stack {
     display: grid;
-    gap: 1rem;
-    padding-top: 1rem;
+    gap: 2rem;
+    padding-top: 2rem;
   }
 
   .section-panel {
@@ -148,7 +140,7 @@ import { projects } from '../data/projects';
     margin: 0;
     padding: 0;
     list-style: none;
-    border: var(--border-solid);
+    border: none;
     border-radius: var(--radius-md);
   }
 

@@ -12,14 +12,14 @@ const notes = allNotes.sort(
 const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
 ---
 
-<PageLayout title="Notes" description="Short knowledge notes and build logs from Freddie K..">
+<PageLayout title="Notes" description="Notes from things Freddie has tried and wants to remember.">
   <PageSidebar slot="sidebar" heading="NOTES" items={sidebarItems} activeHref="/notes" />
 
   <div class="notes-content">
 
     <header class="page-section frame" data-animate="page-section">
       <SectionLabel>Notes</SectionLabel>
-      <p class="mono-copy">Knowledge notes, build logs, and things worth writing down.</p>
+      <p class="mono-copy">Notes from things I've tried and want to remember.</p>
     </header>
 
     {notes.length > 0 ? (
@@ -52,7 +52,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
       </div>
     ) : (
       <section class="page-section frame" data-animate="page-section">
-        <div class="empty-state">// no notes yet — check back soon</div>
+        <div class="empty-state">// no notes yet</div>
       </section>
     )}
 

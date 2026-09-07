@@ -8,18 +8,18 @@ const sidebarItems = [
 ];
 ---
 
-<PageLayout title="Contact" description="Say hi — I'm always happy to chat about tools, automation, or whatever you're building.">
+<PageLayout title="Contact" description="Find Freddie on GitHub, X, or email.">
   <PageSidebar slot="sidebar" heading="CONTACT" items={sidebarItems} activeHref="/contact" />
 
   <div class="contact-content">
 
     <header class="page-section frame" data-animate="page-section">
       <SectionLabel>Contact</SectionLabel>
-      <p class="mono-copy">I build tools, tinker with AI, and occasionally ship things that work. Here's where to find me.</p>
+      <p class="mono-copy">You can find me on GitHub, X, or email.</p>
     </header>
 
     <section class="page-section frame" aria-label="Contact methods and status" data-animate="page-section">
-      <SectionLabel>Reach out & Status</SectionLabel>
+      <SectionLabel>Links</SectionLabel>
       <ul class="contact-list">
         <li>
           <a class="contact-row" href="https://github.com/FreddieKT" target="_blank" rel="noreferrer">
@@ -69,10 +69,10 @@ const sidebarItems = [
     list-style: none;
     margin: 0;
     padding: 0;
-    border: var(--border-solid);
+    border: none;
   }
 
-  .contact-list li + li { border-top: var(--border-solid); }
+  .contact-list li + li { border-top: none; }
 
   .contact-row {
     display: flex;

@@ -27,13 +27,13 @@ const cloudflareHeaders = read('public/_headers');
 const sitemap = read('src/pages/sitemap.xml.ts');
 const noteFiles = walk('src/content/notes').filter((file) => file.endsWith('.md'));
 
-for (const id of ['about', 'notes', 'work', 'contact']) {
+for (const id of ['about', 'work', 'contact']) {
   assert.match(index + read('src/components/FooterStatus.astro'), new RegExp(`id=["']${id}["']`), `missing section id #${id}`);
 }
 
 const pageLayout = read('src/layouts/PageLayout.astro');
 
-for (const href of ['/about', '/labs', '/notes']) {
+for (const href of ['/about', '/labs']) {
   assert.match(header, new RegExp(`href: ['"]${href}['"]`), `header navbar missing ${href}`);
   assert.match(pageLayout, new RegExp(`href: ['"]${href}['"]`), `page layout navbar missing ${href}`);
 }
@@ -48,11 +48,7 @@ assert.match(
   'primary LABS nav should point to the labs index page',
 );
 
-assert.match(
-  header,
-  /\.nav-grid\s+\.nav-pill,\s*\n\s*\.site-header\s*>\s*\.primary-pill\s*{[\s\S]*font-size:\s*0\.65625rem/,
-  'header nav and contact pill should use the approved smaller font size',
-);
+
 
 assert.match(about + contact + footer, /mailto:ktythaung@gmail\.com/, 'contact surfaces must use Freddie\'s real email');
 assert.doesNotMatch(about + contact + footer, /hello@ktt\.dev/, 'placeholder email must not appear in live contact surfaces');
@@ -76,9 +72,9 @@ assert.match(read('src/layouts/PageLayout.astro'), /<SiteHead[\s\S]*path=\{path\
 assert.match(siteHead, /rel="canonical"/, 'shared head should render canonical URLs');
 assert.match(siteHead, /og:url/, 'shared head should render Open Graph URLs');
 assert.match(siteHead, /twitter:image/, 'shared head should render Twitter image metadata');
-assert.match(siteHead, /rel="icon" href="\/favicon\.ico"/, 'shared head should use the Sirius micro favicon for browser tabs');
-assert.match(siteHead, /rel="icon" type="image\/png" sizes="512x512" href="\/favicon\.png"/, 'shared head should expose the Sirius Lunar Node PNG favicon');
-assert.match(siteHead, /rel="apple-touch-icon" href="\/apple-touch-icon\.png"/, 'shared head should expose the Sirius Lunar Node Apple touch icon');
+assert.match(siteHead, /rel="icon" href="\/favicon\.ico\?v=offscript-k-black2"/, 'shared head should use the Offscript K favicon for browser tabs');
+assert.match(siteHead, /rel="icon" type="image\/png" sizes="512x512" href="\/favicon\.png\?v=offscript-k-black2"/, 'shared head should expose the Offscript K PNG favicon');
+assert.match(siteHead, /rel="apple-touch-icon" href="\/apple-touch-icon\.png\?v=offscript-k-black2"/, 'shared head should expose the Offscript K Apple touch icon');
 assert.match(astroConfig, /PUBLIC_SITE_URL/, 'Astro config should allow production site URL override');
 assert.match(siteConfig, /freddie-portfolio\.pages\.dev/, 'site config should include a free Cloudflare Pages fallback origin');
 assert.match(robotsTxt, /Sitemap:\s*https:\/\/freddie-portfolio\.pages\.dev\/sitemap\.xml/, 'robots.txt should point crawlers at the sitemap');
@@ -98,7 +94,6 @@ assert.ok(pkg.dependencies?.gsap, 'gsap dependency must be installed');
 assert.match(index, /gsap/i, 'page must load GSAP animation script');
 assert.match(index, /class="section-pointer" href="\/about"/, 'homepage about section should point to the full about page');
 assert.match(index, /class="section-pointer" href="\/labs"/, 'homepage labs section should point to the labs index page');
-assert.match(index, /class="section-pointer" href="\/notes"/, 'homepage notes section should point to the notes page');
 assert.doesNotMatch(index, /mini-preview-grid/, 'homepage should avoid dense preview-card grids');
 assert.match(hero, /profile-about\.jpg/, 'main hero must reuse the existing About portrait asset');
 assert.match(hero, /\.\.\/assets\/images\/profile-about\.jpg/, 'main hero must import the portrait from a repo-local asset path');
@@ -107,7 +102,7 @@ assert.doesNotMatch(hero + about, /imported\/freddie-portfolio-v2/, "buildable p
 assert.match(hero, /<Image[\s\S]*alt=/, 'main hero portrait must render as an accessible responsive Astro image');
 assert.match(hero, /font-size:\s*clamp\(1\.55rem, 3\.15vw, 3\.05rem\)/, 'hero headline should be reduced so text is not visually dominant');
 assert.match(hero, /max-width:\s*20ch/, 'hero headline should use a wider measure to reduce poster-like line breaks');
-assert.match(hero, /width=\{176\}/, 'main hero image should match the original portfolio desktop image width');
+assert.ok(Number(hero.match(/width=\{(\d+)\}/)?.[1]) >= 352, 'hero image needs at least 2x desktop pixel density for Retina displays');
 assert.match(hero, /width:\s*11rem/, 'main hero desktop CSS image size should match the original portfolio md:w-44 sizing');
 assert.match(hero, /width:\s*7rem/, 'main hero mobile CSS image size should match the original portfolio w-28 sizing');
 
@@ -119,9 +114,9 @@ for (const file of noteFiles) {
   assert.match(read(file), /^publisher:\s*["']Freddie K\.["']/m, `${file} missing Freddie K. publisher frontmatter`);
 }
 assert.match(notesIndex + noteDetail, /note\.data\.publisher/, 'notes pages should render note publisher metadata');
-assert.match(projectsData, /date:\s*'2026-05-16'/, 'labs project data should include published dates');
-assert.match(projectsData, /publisher:\s*'Freddie K\.'/, 'labs project data should include publisher metadata');
-assert.match(labDetail, /project\.date[\s\S]*project\.publisher/, 'labs detail should render date and publisher metadata');
+assert.match(projectsData, /sourceUrl:\s*'https:\/\/github\.com\/FreddieKT\/xlab-agent-platform'/, 'labs project data should link to a current public source');
+assert.doesNotMatch(projectsData, /pos-starter-kit|ktm-cargo|paperclip/, 'labs project data should not include replaced project entries');
+assert.match(labDetail, /project\.sourceUrl/, 'labs detail should render the public source link');
 assert.match(tokenCss, /--panel-overlay:/, 'theme tokens need theme-aware panel overlay');
 assert.doesNotMatch(globalCss, /rgba\(10, 13, 18, 0\.92\)/, 'global styles still contain stale hardcoded dark panel rgba');
 

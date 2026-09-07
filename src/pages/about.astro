@@ -7,20 +7,19 @@ import SectionLabel from '../components/SectionLabel.astro';
 
 const sidebarItems = [
   { label: 'IDENTITY', href: '#identity' },
-  { label: 'STACK',    href: '#stack' },
+  { label: 'TOOLS',    href: '#stack' },
   { label: 'APPROACH', href: '#approach' },
   { label: 'LINKS',    href: '#links' },
 ];
 
 const stack = [
-  'Astro', 'TypeScript', 'Python',
-  'AI / LLMs', 'GSAP', 'Terminal UX', 'Systems Design',
+  'Python', 'TypeScript', 'React', 'Astro', 'FastAPI', 'Hermes Runtime',
 ];
 ---
 
 <PageLayout
   title="About"
-  description="Khant Thura Thaung, also known as Freddie, builds small AI tools, automation workflows, and terminal-native experiments."
+  description="I’m Freddie. I’m exploring AI tools through projects and sharing what worked and what I’m still working out."
 >
   <PageSidebar slot="sidebar" heading="ABOUT" items={sidebarItems} activeHref="#identity" />
 
@@ -42,17 +41,22 @@ const stack = [
         </figure>
         <div class="identity-text">
           <p class="identity-name">FREDDIE K.</p>
-          <p class="mini-kicker">BUILDER @ Freddie K.</p>
+          <p class="mini-kicker">CURIOUS BUILDER</p>
           <p class="mono-copy identity-bio">
-            I'm Khant Thura Thaung, but online I usually go by Freddie. I build small AI tools,
-            automation workflows, and strange little systems for problems I keep running into.
+            I’m Khant Thura Thaung, though I usually go by Freddie online.
+            Lately, I’ve been exploring AI tools and how they fit into my day-to-day life.
+          </p>
+          <p class="mono-copy identity-bio">
+            I’m figuring out where these tools are useful to me by trying them on projects.
+            This site is where I share those experiments, what worked, and what I’m still working out.
           </p>
         </div>
       </div>
     </section>
 
     <section id="stack" class="page-section frame" aria-labelledby="stack-heading" data-animate="page-section">
-      <SectionLabel id="stack-heading">Stack</SectionLabel>
+      <SectionLabel id="stack-heading">Tools I’m using</SectionLabel>
+      <p class="mono-copy">Tools behind this site and the projects shown here.</p>
       <div class="stack-tags">
         {stack.map((tool) => <span class="stack-tag">{tool}</span>)}
       </div>
@@ -61,9 +65,9 @@ const stack = [
     <section id="approach" class="page-section frame" aria-labelledby="approach-heading" data-animate="page-section">
       <SectionLabel id="approach-heading">Approach</SectionLabel>
       <div class="approach-text">
-        <p class="mono-copy">Build small. Ship fast. Keep what's useful.</p>
-        <p class="mono-copy">Most of my projects start from an annoyance: too many notes, messy decisions, repeated manual work, or systems that forget what happened yesterday.</p>
-        <p class="mono-copy">I do not like bloated tools. I like prototypes that survive real use, explain themselves quickly, and stay small until they earn the right to grow.</p>
+        <p class="mono-copy">Most of my projects start with something I want to understand or a task I am tired of repeating.</p>
+        <p class="mono-copy">I usually build the smallest version I can use, then keep working on it only if it proves useful.</p>
+        <p class="mono-copy">I care more about what a tool does in practice than how impressive it sounds in a description.</p>
       </div>
     </section>
 
@@ -149,7 +153,7 @@ const stack = [
     border: var(--border-solid-strong);
     border-radius: var(--radius-md);
     background: var(--surface-terminal);
-    box-shadow: var(--shadow-glow);
+    box-shadow: none;
   }
 
   .identity-photo {
@@ -191,7 +195,7 @@ const stack = [
     align-items: center;
     gap: 0.4rem;
     padding: 0.4rem 0.85rem;
-    border: var(--border-dashed);
+    border: none;
     font-size: var(--text-xs);
     color: var(--accent);
     letter-spacing: 0.1em;
@@ -217,11 +221,11 @@ const stack = [
     list-style: none;
     margin: 0;
     padding: 0;
-    border: var(--border-solid);
+    border: none;
     min-width: 0;
   }
 
-  .links-list li + li { border-top: var(--border-solid); }
+  .links-list li + li { border-top: none; }
 
   .link-row {
     display: flex;

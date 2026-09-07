@@ -25,8 +25,8 @@ The voice should feel human, practical, and slightly weird, but still clear. It 
 
 Use concrete language:
 
-- small AI tools
-- automation workflows
+- current public projects
+- hands-on technology experiments
 - memory systems
 - terminal UX
 - visual experiments
