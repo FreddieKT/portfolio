@@ -1,7 +1,6 @@
-export interface ProjectMetric {
-  name: string;
-  value: string;
-}
+import type { ImageMetadata } from 'astro';
+import terrariumImage from '../assets/images/projects/terrarium-hero.png';
+import terrariumFront from '../assets/images/projects/terrarium-front.png';
 
 export interface Project {
   index: string;
@@ -9,106 +8,62 @@ export interface Project {
   title: string;
   label: string;
   category: string;
-  date: string;
-  publisher: string;
   summary: string;
-  problem: string;
-  does: string;
+  problem?: string;
+  does?: string;
   stack: string[];
   status: string;
-  nextStep: string;
-  command: string;
-  output: string[];
-  metrics?: ProjectMetric[];
+  nextStep?: string;
+  sourceUrl?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  secondaryImage?: ImageMetadata;
+  secondaryImageAlt?: string;
 }
 
 export const projects: Project[] = [
   {
     index: '01',
-    slug: 'pos-starter-kit',
-    title: 'POS STARTER KIT',
-    label: 'multi-tenant point-of-sale',
-    category: 'SAAS',
-    date: '2026-06-19',
-    publisher: 'Freddie K.',
-    summary: 'A multi-tenant POS system with barcode scanning, bulk CSV import, and receipt printing — built for small logistics businesses.',
-    problem: 'Small freight and logistics companies need a simple POS but most options are bloated, expensive, or require internet that isn\'t always there.',
-    does: 'Handles product scanning, cart management, receipt printing, and multi-company tenant isolation. k6 load tested at 150 concurrent users.',
-    stack: ['TypeScript', 'React', 'Supabase', 'k6', 'barcode scanner', 'thermal printer'],
-    status: 'production-ready — load tested',
-    nextStep: 'Onboard first external tenant and iterate on feedback.',
-    command: 'npm run dev',
-    output: ['multi-tenant routing active', 'scan → cart → print flow complete', 'k6: 150 VU passed'],
-    metrics: [
-      { name: 'TENANTS', value: 'MULTI' },
-      { name: 'LOAD TEST', value: '150 VU' },
-      { name: 'STATE', value: 'SHIPPING' },
-    ],
+    slug: 'xlab-agent-platform',
+    title: 'X-LAB AGENT PLATFORM',
+    label: 'agent control plane',
+    category: 'AI PLATFORM',
+    summary: 'A platform I’m building to set up and manage AI agents for different businesses.',
+    problem: 'Agent products need clear boundaries around identity, permissions, customer data, human review, and the code they are allowed to run.',
+    does: 'Registers agent blueprints in code, creates organization-specific deployments, routes jobs to approved handlers, and records owner actions for review.',
+    stack: ['Python', 'FastAPI', 'React', 'TypeScript', 'Tailwind CSS', 'Hermes Runtime', 'SQLite', 'PostgreSQL'],
+    status: 'active development',
+    nextStep: 'Run the synthetic OrderBot Retail showcase before any real customer onboarding.',
+    sourceUrl: 'https://github.com/FreddieKT/xlab-agent-platform',
   },
+
   {
     index: '02',
-    slug: 'ktm-cargo',
-    title: 'KTM CARGO',
-    label: 'cross-border freight system',
-    category: 'LOGISTICS',
-    date: '2026-06-08',
-    publisher: 'Freddie K.',
-    summary: 'A complete operations system for a cross-border freight business — order tracking, shopping orders, and carrier management.',
-    problem: 'Managing cross-border freight involves juggling orders, carriers, shopping lists, and customer updates across multiple channels. Spreadsheets break fast.',
-    does: 'Centralizes order intake, tracks shipments, manages shopping orders, and provides an ops dashboard for daily logistics work.',
-    stack: ['TypeScript', 'React', 'Supabase', 'PostgreSQL', 'REST API'],
-    status: 'live — active daily use',
-    nextStep: 'Expand dashboard with carrier analytics and automated customer notifications.',
-    command: 'npm run dev',
-    output: ['orders flowing', 'ops dashboard live', 'shopping orders tracked'],
-    metrics: [
-      { name: 'STATUS', value: 'LIVE' },
-      { name: 'USERS', value: 'ACTIVE' },
-      { name: 'TYPE', value: 'OPS' },
-    ],
+    slug: 'iot-terrarium',
+    title: 'IOT TERRARIUM',
+    label: '3D concept · not a hardware build',
+    category: 'BLENDER EXPERIMENT',
+    summary: 'A Blender concept exploring how plants, lighting, watering and sensors could fit together in a compact terrarium.',
+    stack: ['Blender', 'Python'],
+    status: '3D concept · not a hardware build',
+    image: terrariumImage,
+    imageAlt: 'Three-quarter Blender render of a glass terrarium with plants, an external water reservoir and a controller concept.',
+    secondaryImage: terrariumFront,
+    secondaryImageAlt: 'Front view of the terrarium concept showing the plants, external water reservoir and controller.',
   },
   {
     index: '03',
-    slug: 'paperclip',
-    title: 'PAPERCLIP',
-    label: 'AI agent orchestration',
-    category: 'AI INFRASTRUCTURE',
-    date: '2026-05-20',
-    publisher: 'Freddie K.',
-    summary: 'An open-source platform for orchestrating AI agents — think of it as a conductor for multiple AI workers that can collaborate on complex tasks.',
-    problem: 'Running multiple AI agents together is messy. Most setups require manual coordination, and agents often step on each other.',
-    does: 'Provides a dashboard to spawn, monitor, and coordinate AI agents. Supports parallel workstreams, approval gates, and result aggregation.',
-    stack: ['TypeScript', 'Next.js', 'pnpm', 'Hermes Agent', 'MCP'],
-    status: 'active development',
-    nextStep: 'Ship first stable release with agent lifecycle management.',
-    command: 'pnpm dev',
-    output: ['orchestrator running', 'agent pools active', 'dashboard live on localhost:3100'],
-    metrics: [
-      { name: 'STATE', value: 'BUILDING' },
-      { name: 'AGENTS', value: 'POOLED' },
-      { name: 'LICENSE', value: 'OPEN' },
-    ],
+    slug: 'project-rules',
+    title: 'PROJECT RULES',
+    label: 'workspace and Git safety',
+    category: 'DEVELOPER WORKFLOW',
+    summary: 'A shared set of rules for creating, organizing, and changing projects on my Mac and GitHub.',
+    problem: 'Projects become hard to manage when folders, Git actions, approvals, and agent instructions follow different rules.',
+    does: 'Defines approved workspace locations, project setup checks, branch rules, external action approvals, and reusable templates for coding agents.',
+    stack: ['Markdown', 'Python', 'Git'],
+    status: 'in use and still being refined',
+    nextStep: 'Keep the rules short enough to follow and update the checks when the workspace changes.',
+    sourceUrl: 'https://github.com/FreddieKT/project-rules',
   },
-  {
-    index: '04',
-    slug: 'kairos-daydreamer',
-    title: 'KAIROS DAYDREAMER',
-    label: 'idea collision agent',
-    category: 'PERSONAL KNOWLEDGE LAB',
-    date: '2026-05-16',
-    publisher: 'Freddie K.',
-    summary: 'A local, approval-gated system that turns a curated corpus of notes and ideas into compact collision briefs — like a creativity engine for your own brain.',
-    problem: 'Good ideas often hide between old notes, project fragments, and unfinished thoughts. Regular search finds matching words, but rarely the strange connections that move a project forward.',
-    does: 'Indexes a local corpus, ranks relevant fragments, generates a short collision brief, and waits for approval before doing anything. Manual-first: no background runs, no auto-posting.',
-    stack: ['Hermes Agent', 'local index', 'hybrid ranking', 'approval workflow', 'HTML/SVG output'],
-    status: 'local manual lab',
-    nextStep: 'Prepare a demo-safe corpus and publish one sanitized Daydreamer run as a case study.',
-    command: 'kairos-daydream --mode daydream --query "agent dreaming"',
-    output: ['corpus indexed', 'collision brief generated', 'approval pending', 'visual export ready'],
-    metrics: [
-      { name: 'MODE', value: 'LOCAL' },
-      { name: 'SIGNAL', value: 'IDEA' },
-      { name: 'STATE', value: 'LAB' },
-    ],
-  },
+
 ];

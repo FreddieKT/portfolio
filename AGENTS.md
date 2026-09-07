@@ -1,6 +1,6 @@
 # Project Context
 
-Freddie Portfolio is a personal portfolio for Freddie K. It presents small AI tools, automation workflows, and terminal-native experiments.
+Freddie Portfolio is a personal site for Freddie K. It presents current public projects, experiments, and notes based on verified repository evidence.
 
 ## Public Site
 

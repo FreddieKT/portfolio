@@ -1,85 +1,59 @@
-# Style Guide — Freddie K. Portfolio
+# Style guide
 
-## Tone
+## Voice
 
-Short, technical, slightly mysterious, but readable.
+Write like Freddie is explaining the work to one person.
 
-Avoid corporate buzzwords. Prefer concrete phrases.
+Use short, direct sentences. Keep the tone curious and practical. Say what a tool does before describing why it matters.
 
-## Voice Examples
+## Good examples
 
-Good:
+- I like trying new technology for myself.
+- This tool keeps agent permissions separate from personality.
+- The project is still in active development.
+- Public demos use sanitized notes.
 
-- Building strange tools for real life.
-- Terminal-native systems for memory, decisions, and creative work.
-- Small tools, durable workflows, useful weirdness.
+## Avoid
 
-Avoid:
+- Corporate claims such as "revolutionary," "seamless," or "production-grade" without proof.
+- Claims that a project changes an industry or represents a larger trend.
+- Invented personal stories, metrics, users, or results.
+- Rhetorical questions followed by an immediate answer.
+- Repeated em dashes, slogans, dramatic fragments, and forced groups of three.
+- Phrases such as "at its core," "the real question," and "here's what you need to know."
 
-- Empowering next-generation digital transformation.
-- Innovative AI solutions for modern businesses.
-- Seamlessly revolutionizing productivity.
+## Headings
 
-## Navigation Labels
+Use sentence case in prose. Interface labels may remain uppercase to match the visual system.
 
-Recommended:
+## Project descriptions
 
-- ABOUT
-- LABS
-- NOTES
-- WORK
-- > CONTACT
+Each project page should answer:
 
-## Category Row Labels
+- What is it?
+- What problem is it meant to handle?
+- What does the current version do?
+- What is its real status?
+- What comes next?
+- Where is the source?
 
-Recommended:
+Use the public repository as evidence. Remove old projects instead of polishing outdated claims.
 
-- AI INFRA
-- SYSTEMS
-- TERMINAL UX
-- OPEN SOURCE
+## Notes
 
-## Project Labels
+A note may use first person when the source supports it. Do not invent experience to make technical writing sound personal.
 
-Use compact uppercase names:
+Prefer one clear example over a long list. Keep code examples only when they match the current project.
 
-- AFTERGLOW
-- UNFOG
-- PROMPTGLASS
-- KAIROS LAB
+## Metadata
 
-## Project Category Labels
+Page descriptions should be plain summaries. Do not use taglines or unsupported claims in search and social metadata.
 
-Recommended:
+## Footer
 
-- DAILY RECALL AGENT
-- NOTE CLARITY ENGINE
-- PROMPT OBSERVER
-- EXPERIMENTAL SYSTEMS
-
-## Microcopy Rules
-
-- Use command-like CTA labels.
-- Keep subheadings under 2 lines when possible.
-- Prefer concrete tool names over abstract categories.
-- Do not over-explain in the hero.
-- Do not present demo/prototype metrics as verified live stats.
-
-## Visual Copy Pattern
+Use:
 
 ```text
-SECTION LABEL
-Short direct phrase.
-
-$ command --example
-> useful output
-```
-
-## Footer/Status Copy
-
-Recommended:
-
-```text
-Freddie K. | builder of strange tools for real life
+Freddie K. | projects, experiments, and notes
 find me on: GitHub / X / Email
 ```

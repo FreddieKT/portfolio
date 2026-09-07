@@ -80,7 +80,7 @@ textarea {
 }
 
 ::selection {
-  background: rgba(181, 217, 253, 0.25);
+  background: var(--selection-bg);
   color: var(--foreground);
 }
 
@@ -91,9 +91,9 @@ textarea {
 }
 
 .frame {
-  border: var(--border-solid);
-  background: var(--surface-panel);
-  box-shadow: var(--shadow-panel);
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .section-label {
@@ -112,7 +112,7 @@ textarea {
   height: 0.75rem;
   border: 1px solid currentColor;
   border-radius: 999px;
-  box-shadow: inset 0 0 0 2px rgba(181, 217, 253, 0.15);
+  box-shadow: inset 0 0 0 2px var(--label-inset);
 }
 
 .nav-pill {
@@ -184,8 +184,8 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  border-top: var(--border-dashed);
-  border-bottom: var(--border-dashed);
+  border-top: none;
+  border-bottom: none;
 }
 
 .grid-tags > span {
@@ -205,7 +205,7 @@ textarea {
 }
 
 .grid-tags > span + span {
-  border-left: var(--border-dashed);
+  border-left: none;
 }
 
 .grid-tags .tag-dot {
@@ -238,7 +238,7 @@ textarea {
 .profile-card,
 .footer-bar,
 .terminal-shell {
-  border: var(--border-solid);
+  border: none;
 }
 
 .kicker-line {
@@ -270,7 +270,7 @@ textarea {
   height: 0.55rem;
   border-radius: 999px;
   background: var(--success);
-  box-shadow: 0 0 0.85rem rgba(126, 231, 135, 0.45);
+  box-shadow: 0 0 0.85rem var(--status-glow);
 }
 
 .sparkline {

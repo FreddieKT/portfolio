@@ -2,34 +2,37 @@
 :root {
   color-scheme: dark;
 
-  --background: #0b0d10;
-  --background-grid: #080b0f;
-  --surface: #11151a;
-  --surface-raised: #151b22;
-  --surface-terminal: #0a0e13;
-  --surface-panel: rgba(16, 20, 26, 0.94);
-  --panel-overlay: rgba(10, 13, 18, 0.92);
-  --panel-overlay-soft: rgba(9, 11, 15, 0.78);
-  --terminal-overlay: rgba(181, 217, 253, 0.05);
-  --interactive-overlay: rgba(181, 217, 253, 0.08);
-  --avatar-pixel: rgba(244, 247, 251, 0.95);
+  --background: #151719;
+  --background-grid: #111315;
+  --surface: #1e2124;
+  --surface-raised: #272c30;
+  --surface-terminal: #121416;
+  --surface-panel: rgba(30, 33, 36, 0.94);
+  --panel-overlay: rgba(21, 23, 25, 0.92);
+  --panel-overlay-soft: rgba(18, 20, 22, 0.78);
+  --terminal-overlay: rgba(168, 201, 232, 0.05);
+  --interactive-overlay: rgba(168, 201, 232, 0.08);
+  --selection-bg: rgba(168, 201, 232, 0.25);
+  --label-inset: rgba(168, 201, 232, 0.15);
+  --status-glow: rgba(167, 186, 150, 0.45);
+  --avatar-pixel: rgba(237, 240, 242, 0.95);
 
-  --foreground: #f4f7fb;
-  --foreground-soft: #dce3ee;
-  --muted: #8a96a8;
-  --muted-faint: #667183;
+  --foreground: #edf0f2;
+  --foreground-soft: #d1d8de;
+  --muted: #a3acb5;
+  --muted-faint: #929ca6;
 
-  --accent: #b5d9fd;
-  --accent-strong: #79bdf2;
-  --accent-soft: rgba(181, 217, 253, 0.14);
-  --success: #7ee787;
-  --success-soft: rgba(126, 231, 135, 0.15);
+  --accent: #a8c9e8;
+  --accent-strong: #c4def5;
+  --accent-soft: rgba(168, 201, 232, 0.14);
+  --success: #a7ba96;
+  --success-soft: rgba(167, 186, 150, 0.15);
 
-  --grid-line: rgba(181, 217, 253, 0.08);
-  --grid-line-strong: rgba(181, 217, 253, 0.14);
-  --border: rgba(244, 247, 251, 0.22);
-  --border-strong: rgba(181, 217, 253, 0.6);
-  --border-dashed-color: rgba(244, 247, 251, 0.48);
+  --grid-line: rgba(168, 201, 232, 0.08);
+  --grid-line-strong: rgba(168, 201, 232, 0.14);
+  --border: rgba(237, 240, 242, 0.22);
+  --border-strong: rgba(168, 201, 232, 0.6);
+  --border-dashed-color: rgba(237, 240, 242, 0.48);
 
   --font-display: "IBM Plex Mono", "SFMono-Regular", "JetBrains Mono", ui-monospace, monospace;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", "JetBrains Mono", ui-monospace, monospace;
@@ -61,8 +64,8 @@
   --border-solid-strong: 1px solid var(--border-strong);
 
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 0 0.9rem rgba(181, 217, 253, 0.18);
-  --shadow-glow-strong: 0 0 1.4rem rgba(181, 217, 253, 0.3);
+  --shadow-glow: 0 0 0.9rem rgba(168, 201, 232, 0.18);
+  --shadow-glow-strong: 0 0 1.4rem rgba(168, 201, 232, 0.3);
 }
 
 :root[data-theme="light"] {
@@ -77,6 +80,9 @@
   --panel-overlay-soft: rgba(255, 255, 255, 0.78);
   --terminal-overlay: rgba(94, 152, 242, 0.08);
   --interactive-overlay: rgba(94, 152, 242, 0.1);
+  --selection-bg: rgba(181, 217, 253, 0.25);
+  --label-inset: rgba(181, 217, 253, 0.15);
+  --status-glow: rgba(126, 231, 135, 0.45);
   --avatar-pixel: rgba(24, 24, 24, 0.88);
 
   --foreground: #181818;
@@ -114,7 +120,10 @@
     --panel-overlay-soft: rgba(255, 255, 255, 0.78);
     --terminal-overlay: rgba(94, 152, 242, 0.08);
     --interactive-overlay: rgba(94, 152, 242, 0.1);
-    --avatar-pixel: rgba(24, 24, 24, 0.88);
+    --selection-bg: rgba(181, 217, 253, 0.25);
+  --label-inset: rgba(181, 217, 253, 0.15);
+  --status-glow: rgba(126, 231, 135, 0.45);
+  --avatar-pixel: rgba(24, 24, 24, 0.88);
 
     --foreground: #181818;
     --foreground-soft: #222222;

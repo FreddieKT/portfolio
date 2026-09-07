@@ -21,12 +21,13 @@ const { project } = Astro.props;
     </span>
     <span class="row-arrow" aria-hidden="true">↗</span>
   </a>
+
 </li>
 
 <style>
   .project-row {
     list-style: none;
-    border-bottom: var(--border-solid);
+    border-bottom: none;
   }
 
   .project-row:last-child {
@@ -101,7 +102,7 @@ const { project } = Astro.props;
   .row-tag {
     font-size: 0.6rem;
     color: var(--muted);
-    border: var(--border-dashed);
+    border: none;
     padding: 0.15rem 0.45rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;

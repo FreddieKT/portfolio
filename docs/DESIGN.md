@@ -24,9 +24,9 @@ The portfolio should feel like a **developer lab interface**, not a generic port
 
 Core impression:
 
-> A calm technical operating system for strange, useful AI tools.
+> A personal record of current projects, experiments, and notes.
 
-The copy should support that impression without sounding like a startup landing page. Freddie's voice is practical, direct, and human: small AI tools, messy workflows, memory systems, terminal UX, and visual experiments that are useful before they are polished.
+The copy should support that impression without sounding like a startup landing page. Freddie's voice is curious, practical, and direct. Describe current public work in plain language and avoid claims that the repository cannot support.
 
 ## Visual Language
 
