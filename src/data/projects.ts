@@ -21,6 +21,7 @@ export interface Project {
   imageAlt?: string;
   secondaryImage?: ImageMetadata;
   secondaryImageAlt?: string;
+  secondaryImageCaption?: string;
 }
 
 export const projects: Project[] = [
@@ -41,6 +42,7 @@ export const projects: Project[] = [
     imageAlt: 'X-Lab public landing page with the headline "Identity-rich agents, deployed with review."',
     secondaryImage: xlabControl,
     secondaryImageAlt: 'X-Lab agent control center showing the agent catalog, deployments table and setup checklist, rendered locally with demo data.',
+    secondaryImageCaption: 'Demo data: rendered locally with a mocked API. Customers, counts and dates are made up.',
   },
 
   {
