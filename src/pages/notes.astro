@@ -83,12 +83,11 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     gap: 0.75rem;
     padding: 1.5rem;
     border-radius: var(--radius-md);
-    transition: border-color 160ms ease, box-shadow 160ms ease;
+    transition: border-color var(--motion-fast) ease;
   }
 
   .note-card:hover {
     border-color: var(--accent);
-    box-shadow: var(--shadow-glow);
   }
 
   /* Meta row — date + publisher + tags */
@@ -162,7 +161,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-top: 0.25rem;
-    transition: gap 160ms ease;
+    transition: gap var(--motion-fast) ease;
   }
 
   .note-read-link:hover {

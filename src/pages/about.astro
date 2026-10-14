@@ -233,13 +233,17 @@ const stack = [
     gap: 0.75rem;
     padding: 0.85rem 1rem;
     min-width: 0;
-    transition: background 160ms ease, color 160ms ease;
+    transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
   }
 
   .link-row:hover {
     background: var(--accent-soft);
     color: var(--accent);
   }
+
+  .link-row:hover .link-dot { background: var(--accent); opacity: 1; }
+  .link-row:hover .link-arrow { transform: translate(var(--nudge), var(--lift)); }
+  .link-row[href^="mailto:"]:hover .link-arrow { transform: translateX(var(--nudge)); }
 
   .link-dot {
     width: 0.55rem;
@@ -248,6 +252,11 @@ const stack = [
     border-radius: 999px;
     flex-shrink: 0;
     opacity: 0.75;
+    transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
+  }
+
+  .link-arrow {
+    transition: transform var(--motion-base) ease;
   }
 
   .link-label {

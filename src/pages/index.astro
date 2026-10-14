@@ -128,12 +128,14 @@ import { projects } from '../data/projects';
     font-size: var(--text-xs);
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    transition: transform var(--motion-base) ease;
   }
 
   .section-pointer:hover,
   .section-pointer:focus-visible {
     text-decoration: underline;
     text-underline-offset: 0.25rem;
+    transform: translateX(var(--nudge));
   }
 
   .project-list {
@@ -150,12 +152,7 @@ import { projects } from '../data/projects';
     }
   }
 
-  @media (max-width: 720px) {
-    .page-shell {
-      width: min(100%, calc(100% - 1rem));
-      padding-top: 0.5rem;
-    }
-
+  @media (max-width: 768px) {
     .hero-frame {
       padding: 0.75rem;
     }

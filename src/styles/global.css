@@ -16,6 +16,21 @@
   box-sizing: border-box;
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
 html {
   min-width: 320px;
   min-height: 100%;
@@ -127,7 +142,7 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: var(--text-xs);
-  transition: border-color 160ms ease, color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease, transform var(--motion-base) ease;
 }
 
 .nav-pill:hover,
@@ -135,7 +150,7 @@ textarea {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(var(--lift));
 }
 
 .primary-pill {
@@ -150,7 +165,6 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: var(--text-xs);
-  box-shadow: var(--shadow-glow);
 }
 
 .hero-title {
@@ -197,11 +211,16 @@ textarea {
   font-size: var(--text-xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: background 160ms ease;
+  transition: background var(--motion-fast) ease;
 }
 
 .grid-tags > span:hover {
   background: var(--accent-soft);
+}
+
+.grid-tags > span:hover .tag-dot {
+  background: currentColor;
+  opacity: 1;
 }
 
 .grid-tags > span + span {
@@ -216,6 +235,7 @@ textarea {
   background: transparent;
   flex-shrink: 0;
   opacity: 0.75;
+  transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
 }
 
 .dashed-panel {
@@ -270,7 +290,6 @@ textarea {
   height: 0.55rem;
   border-radius: 999px;
   background: var(--success);
-  box-shadow: 0 0 0.85rem var(--status-glow);
 }
 
 .sparkline {

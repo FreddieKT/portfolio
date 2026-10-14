@@ -77,14 +77,13 @@
     background: var(--interactive-overlay);
     cursor: pointer;
     overflow: hidden;
-    transition: border-color 160ms ease, color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
   }
 
   .theme-toggle:hover,
   .theme-toggle:focus-visible {
     border-color: var(--accent);
     background: var(--accent-soft);
-    box-shadow: var(--shadow-glow);
   }
 
   .theme-icon-svg {
