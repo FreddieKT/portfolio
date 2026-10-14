@@ -1,15 +1,81 @@
 ---
 import { Image } from 'astro:assets';
 import profileImage from '../assets/images/profile-about.jpg';
+import sunderlandLogo from '../assets/logos/sunderland.svg';
+import tmcLogo from '../assets/logos/tmc.png';
+import kmdLogo from '../assets/logos/kmd.png';
 import PageLayout from '../layouts/PageLayout.astro';
 import PageSidebar from '../components/PageSidebar.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 
 const sidebarItems = [
   { label: 'IDENTITY', href: '#identity' },
+  { label: 'EDUCATION', href: '#timeline' },
   { label: 'TOOLS',    href: '#stack' },
   { label: 'APPROACH', href: '#approach' },
   { label: 'LINKS',    href: '#links' },
+];
+
+const timeline = [
+  {
+    year: '2019–22',
+    text: 'Studied for a Higher National Diploma, Computing',
+    where: 'KMD Computer Centre',
+    subjects: 'programming, databases, SQL',
+    logo: kmdLogo, tint: true,
+    label: 'Units',
+    units: [
+      'Computer Systems Fundamentals',
+      'Developing Software: Introduction',
+      'Software Development: Programming Foundations',
+      'Database Design Fundamentals',
+      'SQL Introduction',
+      'Professionalism and Ethics in Computing',
+      'Small-scale Standalone Application (VB.Net)',
+      'Troubleshooting Computing Problems',
+      'Introduction to Project Management',
+      'HND Computing: Graded Unit 1',
+      'Scripting for Interactivity',
+      'Mathematics for Computing 1',
+    ],
+  },
+  {
+    year: '2022–24',
+    text: 'Higher Diploma, Infocomm Technology',
+    where: 'TMC Academy',
+    subjects: 'databases, web, mobile',
+    logo: tmcLogo, tint: true,
+    label: 'Modules',
+    units: [
+      'Project Management',
+      'Database Systems and Applications',
+      'Application Programming with Java',
+      'Information Systems Analysis and Design',
+      'Web Programming and Applications',
+      'Network Operating Systems',
+      '.Net Programming with C#',
+      'Development of Mobile Applications',
+      'Object Oriented Programming with C++',
+      'Cloud Computing Concepts',
+      'Project',
+    ],
+  },
+  {
+    year: '2024–25',
+    text: 'BSc (Hons) Computer Systems Engineering',
+    where: 'University of Sunderland',
+    subjects: 'AI, cyber security, data',
+    logo: sunderlandLogo, mono: true,
+    label: 'Modules',
+    units: [
+      'Artificial Intelligence',
+      'Advanced Cyber Security',
+      'Advanced Data Technologies',
+      'Product Development',
+      'Android Mobile Development',
+      'Research',
+    ],
+  },
 ];
 
 const stack = [
@@ -52,6 +118,38 @@ const stack = [
           </p>
         </div>
       </div>
+    </section>
+
+    <section id="timeline" class="page-section frame" aria-labelledby="timeline-heading" data-animate="page-section">
+      <SectionLabel id="timeline-heading">Education</SectionLabel>
+      <ol class="timeline">
+        {timeline.map((item, i) => (
+          <li class="timeline-row">
+            <span class="timeline-year">{item.year}</span>
+            <span class="timeline-logo" aria-hidden="true">
+              {item.logo && <img src={item.logo.src} alt="" height="28" loading="lazy" decoding="async" class:list={[{ mono: item.mono, tint: item.tint }]} />}
+            </span>
+            <div class="timeline-main">
+              <button class="timeline-head" type="button" aria-expanded="false" aria-controls={`tl-panel-${i}`}>
+                <span class="timeline-text">
+                  {item.text}
+                  <span class="timeline-where">{item.where}</span>
+                  <span class="timeline-subjects">{item.subjects}</span>
+                </span>
+                <span class="timeline-toggle" aria-hidden="true"></span>
+              </button>
+              <div class="timeline-panel" id={`tl-panel-${i}`}>
+                <div class="timeline-inner">
+                  <p class="timeline-label">{item.label}</p>
+                  <ul class="timeline-units">
+                    {item.units.map((u) => <li>{u}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
     </section>
 
     <section id="stack" class="page-section frame" aria-labelledby="stack-heading" data-animate="page-section">
@@ -121,6 +219,16 @@ const stack = [
     );
 
     sections.forEach((s) => observer.observe(s));
+
+    const timeline = document.querySelector('.timeline');
+    timeline?.classList.add('js');
+    timeline?.querySelectorAll('.timeline-head').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        btn.closest('.timeline-row')?.classList.toggle('is-open', !open);
+      });
+    });
   </script>
 </PageLayout>
 
@@ -287,6 +395,206 @@ const stack = [
 
     .identity-layout {
       flex-direction: column;
+    }
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 5.5rem 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-top: var(--border-dashed);
+  }
+
+  .timeline-logo {
+    display: flex;
+    align-items: center;
+    width: 4.5rem;
+    height: 2rem;
+  }
+
+  .timeline-logo img {
+    height: 1.75rem;
+    width: auto;
+    max-width: 4.25rem;
+    object-fit: contain;
+  }
+
+  :global(:root[data-theme="dark"]) .timeline-logo img.mono {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  /* flips lightness but keeps hue, so coloured logos stay coloured on dark */
+  :global(:root[data-theme="dark"]) .timeline-logo img.tint {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  .timeline-year {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline-main {
+    min-width: 0;
+  }
+
+  .timeline-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .timeline-head:hover .timeline-text,
+  .timeline-head:focus-visible .timeline-text {
+    color: var(--accent);
+  }
+
+  .timeline-head:focus-visible {
+    outline: 1px dashed var(--accent);
+    outline-offset: 4px;
+  }
+
+  .timeline-text {
+    font-size: var(--text-sm);
+    color: var(--foreground-soft);
+    min-width: 0;
+    overflow-wrap: anywhere;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .timeline-toggle {
+    position: relative;
+    flex-shrink: 0;
+    width: 0.85rem;
+    height: 0.85rem;
+    margin-top: 0.2rem;
+    color: var(--accent);
+    transition: transform var(--motion-base) ease;
+  }
+
+  .timeline-toggle::before,
+  .timeline-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .timeline-toggle::after {
+    transform: rotate(90deg);
+  }
+
+  .timeline-row.is-open .timeline-toggle {
+    transform: rotate(45deg);
+  }
+
+  .timeline.js .timeline-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      grid-template-rows var(--motion-base) ease,
+      opacity var(--motion-base) ease,
+      visibility 0s linear var(--motion-base);
+  }
+
+  .timeline.js .is-open .timeline-panel {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .timeline-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .timeline-label {
+    margin: 0.75rem 0 0.25rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .timeline-units {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0.35rem 1.5rem;
+  }
+
+  .timeline-units li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: var(--text-sm);
+    color: var(--foreground-soft);
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-units li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+  }
+
+
+  .timeline-subjects {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: var(--text-xs);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .timeline-where {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: var(--text-xs);
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+
+  @media (max-width: 600px) {
+    .timeline-row {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      gap: 0.25rem 0.75rem;
+    }
+
+    .timeline-year {
+      grid-column: 1 / -1;
+    }
+
+    .timeline-main {
+      grid-column: 2;
     }
   }
 </style>
