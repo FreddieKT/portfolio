@@ -66,7 +66,7 @@ const { items, activeHref, heading } = Astro.props;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-left: 2px solid transparent;
-    transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+    transition: color var(--motion-fast) ease, background var(--motion-fast) ease, border-color var(--motion-fast) ease;
   }
 
   .sidebar-num {
@@ -75,7 +75,16 @@ const { items, activeHref, heading } = Astro.props;
     color: var(--muted);
     border-right: 1px dashed var(--border-solid);
     padding-right: 0.75rem;
-    transition: color 160ms ease, border-color 160ms ease;
+    transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease;
+  }
+
+  .sidebar-label {
+    transition: transform var(--motion-base) ease;
+  }
+
+  .sidebar-item:hover .sidebar-label,
+  .sidebar-item:focus-visible .sidebar-label {
+    transform: translateX(var(--nudge));
   }
 
   .sidebar-label {
