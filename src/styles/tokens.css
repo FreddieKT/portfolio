@@ -144,6 +144,15 @@
   }
 }
 
+/* Touch screens keep :hover after a tap, so hover lifts/nudges would fire on
+   every tap and jolt right before the page swaps. */
+@media (hover: none) {
+  :root {
+    --lift: 0px;
+    --nudge: 0px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion-fast: 0ms;
