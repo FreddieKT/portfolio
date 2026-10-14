@@ -71,7 +71,6 @@ const { project } = Astro.props;
   }
 
   .row-link:hover .row-dot { background: var(--accent); opacity: 1; }
-  .row-link:hover .row-arrow { transform: translate(var(--nudge), var(--lift)); }
 
   .row-body {
     display: grid;
@@ -117,7 +116,6 @@ const { project } = Astro.props;
     font-size: var(--text-sm);
     color: var(--accent);
     text-align: right;
-    transition: transform var(--motion-base) ease;
   }
 
   @media (max-width: 600px) {
