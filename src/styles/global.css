@@ -25,16 +25,6 @@
   animation-duration: 250ms;
 }
 
-/* Start animated elements hidden before first paint so the page-transition
-   snapshot never shows content that GSAP then hides and replays. GSAP's
-   autoAlpha inline styles override this when the entrance runs. */
-@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  [data-animate] {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: none;
