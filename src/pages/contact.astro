@@ -57,7 +57,6 @@ const sidebarItems = [
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion) {
-    gsap.set('[data-animate="contact-row"]', { x: -14 });
     gsap.to('[data-animate="contact-row"]', {
       x: 0, duration: 0.45, ease: 'power2.out', stagger: 0.09, delay: 0.45,
     });

@@ -53,17 +53,7 @@ import { projects } from '../data/projects';
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!reduceMotion) {
-        // Hero sub-elements
-        gsap.set('[data-animate="hero-portrait"]', { scale: 0.96, y: 10 });
-        gsap.set('[data-animate="hero-eyebrow"]', { y: 10 });
-        gsap.set('[data-animate="hero-heading"]', { y: 18 });
-        gsap.set('[data-animate="hero-subhead"]', { y: 14 });
-        gsap.set('[data-animate="hero-tag"]', { x: -10 });
-
-        gsap.set('[data-animate="section-panel"], [data-animate="project-card"]', {
-          y: 18,
-        });
-
+        // Start offsets live in global.css so they apply before first paint.
         const heroTl = gsap.timeline({ defaults: { ease: 'power2.out' } });
         heroTl
           .to('[data-animate="hero-portrait"]', { scale: 1, y: 0, duration: 0.65 })
