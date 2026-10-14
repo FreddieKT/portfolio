@@ -73,7 +73,7 @@ const { items, activeHref, heading } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.9em;
     color: var(--muted);
-    border-right: 1px dashed var(--border-solid);
+    border-right: 1px dashed var(--border);
     padding-right: 0.75rem;
     transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease;
   }
@@ -116,12 +116,6 @@ const { items, activeHref, heading } = Astro.props;
   .sidebar-item.is-active .sidebar-num {
     color: var(--accent);
     border-right-color: var(--accent);
-  }
-
-  .sidebar-item.is-active {
-    color: var(--accent);
-    background: var(--accent-soft);
-    border-left-color: var(--accent);
   }
 
   .sidebar-list li + li {
