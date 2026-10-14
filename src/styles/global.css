@@ -121,6 +121,12 @@ textarea {
   color: var(--accent);
 }
 
+/* Page titles reuse the label look; keep p's spacing and weight. */
+h1.section-label {
+  margin: 1em 0;
+  font-weight: inherit;
+}
+
 .section-label::before {
   content: '';
   width: 0.75rem;

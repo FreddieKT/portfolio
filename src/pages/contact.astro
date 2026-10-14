@@ -14,7 +14,7 @@ const sidebarItems = [
   <div class="contact-content">
 
     <header class="page-section frame" data-animate="page-section">
-      <SectionLabel>Contact</SectionLabel>
+      <SectionLabel as="h1">Contact</SectionLabel>
       <p class="mono-copy">You can find me on GitHub, X, or email.</p>
     </header>
 
@@ -123,6 +123,8 @@ const sidebarItems = [
     font-size: var(--text-sm);
     color: var(--foreground-soft);
     flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .contact-arrow {
