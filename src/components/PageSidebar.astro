@@ -79,15 +79,6 @@ const { items, activeHref, heading } = Astro.props;
   }
 
   .sidebar-label {
-    transition: transform var(--motion-base) ease;
-  }
-
-  .sidebar-item:hover .sidebar-label,
-  .sidebar-item:focus-visible .sidebar-label {
-    transform: translateX(var(--nudge));
-  }
-
-  .sidebar-label {
     min-width: 0;
     overflow-wrap: anywhere;
     line-height: 1.35;

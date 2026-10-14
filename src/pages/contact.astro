@@ -21,7 +21,7 @@ const sidebarItems = [
     <section class="page-section frame" aria-label="Contact methods and status" data-animate="page-section">
       <SectionLabel>Links</SectionLabel>
       <ul class="contact-list">
-        <li data-animate="contact-row">
+        <li>
           <a class="contact-row" href="https://github.com/FreddieKT" target="_blank" rel="noreferrer">
             <span class="contact-dot" aria-hidden="true"></span>
             <span class="contact-label">GITHUB</span>
@@ -29,7 +29,7 @@ const sidebarItems = [
             <span class="contact-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
-        <li data-animate="contact-row">
+        <li>
           <a class="contact-row" href="https://x.com/ktythaung" target="_blank" rel="noreferrer">
             <span class="contact-dot" aria-hidden="true"></span>
             <span class="contact-label">X</span>
@@ -37,7 +37,7 @@ const sidebarItems = [
             <span class="contact-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
-        <li data-animate="contact-row">
+        <li>
           <a class="contact-row" href="mailto:ktythaung@gmail.com">
             <span class="contact-dot" aria-hidden="true"></span>
             <span class="contact-label">EMAIL</span>
@@ -51,18 +51,6 @@ const sidebarItems = [
 
   </div>
 </PageLayout>
-
-<script>
-  import { gsap } from 'gsap';
-
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    gsap.to('[data-animate="contact-row"]', {
-      x: 0, duration: 0.45, ease: 'power2.out', stagger: 0.09, delay: 0.45,
-    });
-  }
-
-</script>
 
 <style>
   .contact-content {
@@ -96,8 +84,6 @@ const sidebarItems = [
 
   .contact-row:hover { background: var(--accent-soft); }
   .contact-row:hover .contact-dot { background: var(--accent); opacity: 1; }
-  .contact-row:hover .contact-arrow { transform: translate(var(--nudge), var(--lift)); }
-  .contact-row[href^="mailto:"]:hover .contact-arrow { transform: translateX(var(--nudge)); }
 
 
   .contact-dot {
@@ -129,7 +115,6 @@ const sidebarItems = [
   .contact-arrow {
     color: var(--accent);
     margin-left: auto;
-    transition: transform var(--motion-base) ease;
   }
 
 
