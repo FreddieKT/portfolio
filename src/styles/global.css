@@ -31,7 +31,23 @@
   }
 }
 
+/* Entrance start offsets, set before first paint; GSAP tweens them to 0.
+ * Setting them from the module script moved content that was already painted. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  [data-animate="sidebar-item"] { transform: translateX(-12px); }
+  [data-animate="contact-row"] { transform: translateX(-14px); }
+  [data-animate="hero-tag"] { transform: translateX(-10px); }
+  [data-animate="page-section"] { transform: translateY(16px); }
+  [data-animate="hero-eyebrow"] { transform: translateY(10px); }
+  [data-animate="hero-heading"] { transform: translateY(18px); }
+  [data-animate="hero-subhead"] { transform: translateY(14px); }
+  [data-animate="section-panel"],
+  [data-animate="project-card"] { transform: translateY(18px); }
+  [data-animate="hero-portrait"] { transform: translateY(10px) scale(0.96); }
+}
+
 html {
+  -webkit-tap-highlight-color: transparent;
   min-width: 320px;
   min-height: 100%;
   background: var(--background);
