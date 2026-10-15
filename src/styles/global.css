@@ -352,3 +352,21 @@ h1.section-label {
     transform: translateY(8px);
   }
 }
+
+/* Cross-document view transition: holds the old page on screen until the
+   new one is ready (no blank frame) and keeps the header still. The root
+   crossfade is off so content only fades once, via the entrance above. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
