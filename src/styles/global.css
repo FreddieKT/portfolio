@@ -326,3 +326,29 @@ h1.section-label {
   border-bottom: 1px solid var(--border-strong);
   clip-path: polygon(calc(100% - 12px) 100%, 100% 100%, 100% calc(100% - 12px), calc(100% - 12px) calc(100% - 12px), calc(100% - 12px) 0, 100% 0, 100% 100%);
 }
+
+/* Entrance: pure CSS so it starts on the first painted frame. Never hide
+   content from JS after paint; that is what caused the iPhone jank (#57). */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-grid,
+  .content-stack > *,
+  .page-main > * {
+    animation: enter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .content-stack > :nth-child(2),
+  .page-main > :nth-child(2) { animation-delay: 60ms; }
+
+  .content-stack > :nth-child(3),
+  .page-main > :nth-child(3) { animation-delay: 120ms; }
+
+  .content-stack > :nth-child(n + 4),
+  .page-main > :nth-child(n + 4) { animation-delay: 180ms; }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
