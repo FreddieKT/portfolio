@@ -35,7 +35,24 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     column-gap: var(--space-5);
-    padding-block: var(--space-2) var(--space-4);
+    /* Sticks for the whole scroll. The extra 1rem on top scrolls away (top: -1rem), so the stuck
+       bar stays compact. The opaque band reaches both screen edges and covers content and grid. */
+    position: sticky;
+    top: -1rem;
+    z-index: 10;
+    padding: calc(1rem + var(--space-2)) 1rem var(--space-4);
+    background: var(--background);
+    box-shadow: 0 0 0 100vmax var(--background);
+    clip-path: inset(0 -100vmax);
+  }
+  /* Full-width hairline under the bar; motion.css fades it in once the page scrolls. */
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset: auto -100vmax 0;
+    height: 1px;
+    background: var(--border);
+    opacity: 0;
   }
   .brand-mark {
     display: inline-flex;
@@ -100,6 +117,9 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     box-shadow: none;
   }
   .theme-control :global(.theme-toggle:active) { background: var(--accent-soft); }
+  @media (max-width: 768px) {
+    .site-header { padding-inline: 0.75rem; }
+  }
   @media (max-width: 600px) {
     .site-header { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-2); row-gap: var(--space-3); }
     .theme-control { grid-column: 2; grid-row: 1; }

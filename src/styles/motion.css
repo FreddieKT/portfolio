@@ -33,5 +33,26 @@
 }
 
 section[id] {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: calc(var(--header-stuck) + 1.5rem);
+}
+
+/* Sticky header: its hairline fades in over the first 4rem of scroll (scroll-driven, no JS).
+   Browsers without scroll timelines simply show no hairline. */
+@supports (animation-timeline: scroll()) {
+  .site-header::after {
+    animation: header-divider linear both;
+  }
+
+  /* Separate selector on purpose: the minifier folds a same-rule animation-timeline into the
+     animation shorthand, which browsers reject. */
+  html .site-header::after {
+    animation-timeline: scroll(root);
+    animation-range: 0 4rem;
+  }
+}
+
+@keyframes header-divider {
+  to {
+    opacity: 1;
+  }
 }

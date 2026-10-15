@@ -78,6 +78,15 @@
   --motion-fast: 150ms;
   --motion-base: 200ms;
   --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Visible height of the stuck header (Header.astro); sticky and anchor offsets sit below it. */
+  --header-stuck: 4.25rem;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --header-stuck: 7.75rem; /* nav wraps to a second row */
+  }
 }
 
 :root[data-theme="light"] {
