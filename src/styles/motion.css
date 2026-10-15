@@ -24,3 +24,14 @@
 .theme-switching *:not(.sun-icon, .moon-icon) {
   transition: none !important;
 }
+
+/* In-page anchors (sidebar) glide instead of jumping; sections stop clear of the edge. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+section[id] {
+  scroll-margin-top: 1.5rem;
+}

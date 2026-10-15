@@ -202,23 +202,29 @@ const stack = [
   </div>
 
   <script>
-    const sections = document.querySelectorAll('#identity, #stack, #approach, #links');
-    const sidebarLinks = document.querySelectorAll('.sidebar-item');
+    // Scroll-spy: the section crossing a line 35% down the viewport is active. A click marks its item
+    // at once and holds it until the smooth scroll settles, so the highlight never flickers through
+    // the sections in between or leaves two items lit.
+    const sidebarLinks = [...document.querySelectorAll('.sidebar-item')];
+    const setActive = (hash) => sidebarLinks.forEach((link) => link.classList.toggle('is-active', link.hash === hash));
+    let heldUntil = 0;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            sidebarLinks.forEach((link) => {
-              link.classList.toggle('is-active', link.getAttribute('href') === `#${entry.target.id}`);
-            });
-          }
-        });
+        if (performance.now() < heldUntil) return;
+        const hit = entries.find((entry) => entry.isIntersecting);
+        if (hit) setActive(`#${hit.target.id}`);
       },
-      { threshold: 0.4 }
+      { rootMargin: '-35% 0px -64% 0px' }
     );
-
-    sections.forEach((s) => observer.observe(s));
+    sidebarLinks.forEach((link) => {
+      const section = document.querySelector(link.hash);
+      if (section) observer.observe(section);
+      link.addEventListener('click', () => {
+        setActive(link.hash);
+        heldUntil = performance.now() + 1000;
+      });
+    });
 
     const timeline = document.querySelector('.timeline');
     timeline?.classList.add('js');

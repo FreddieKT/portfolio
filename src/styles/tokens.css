@@ -12,7 +12,8 @@
   --panel-overlay-soft: rgba(18, 18, 18, 0.78);
   --terminal-overlay: rgba(96, 165, 250, 0.06);
   --interactive-overlay: rgba(96, 165, 250, 0.1);
-  --selection-bg: rgba(96, 165, 250, 0.28);
+  --selection-bg: #60a5fa;
+  --selection-fg: #0b1220;
   --label-inset: rgba(96, 165, 250, 0.18);
   --avatar-pixel: rgba(250, 250, 250, 0.92);
 
@@ -81,7 +82,8 @@
   --panel-overlay-soft: rgba(255, 255, 255, 0.78);
   --terminal-overlay: rgba(94, 152, 242, 0.08);
   --interactive-overlay: rgba(94, 152, 242, 0.1);
-  --selection-bg: rgba(181, 217, 253, 0.25);
+  --selection-bg: #2563eb;
+  --selection-fg: #ffffff;
   --label-inset: rgba(181, 217, 253, 0.15);
   --avatar-pixel: rgba(24, 24, 24, 0.88);
 
@@ -118,7 +120,8 @@
     --panel-overlay-soft: rgba(255, 255, 255, 0.78);
     --terminal-overlay: rgba(94, 152, 242, 0.08);
     --interactive-overlay: rgba(94, 152, 242, 0.1);
-    --selection-bg: rgba(181, 217, 253, 0.25);
+    --selection-bg: #2563eb;
+    --selection-fg: #ffffff;
   --label-inset: rgba(181, 217, 253, 0.15);
   --avatar-pixel: rgba(24, 24, 24, 0.88);
 
