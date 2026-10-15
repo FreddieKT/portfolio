@@ -131,15 +131,38 @@ const sourceFiles = walk('src').filter((file) => /\.(astro|css|ts)$/.test(file))
 
 // Motion guard: colour-only feedback. See docs/superpowers/specs/2026-10-14-motion-refactor-design.md
 const motionSpec = 'docs/superpowers/specs/2026-10-14-motion-refactor-design.md';
+function motionViolations(text) {
+  const found = [];
+  if (/\bgsap\b|data-animate/.test(text)) found.push('entrance animation (gsap/data-animate)');
+  // Allowlist from the spec: only colour-ish properties (and small-icon opacity) may transition.
+  const allowed = /^(none|color|opacity|outline-color|background(-color)?|border(-(top|right|bottom|left))?-color)$/;
+  for (const [, value] of text.matchAll(/transition(?:-property)?:\s*([^;]+);/g)) {
+    for (const part of value.split(',')) {
+      const prop = part.trim().split(/\s+/)[0];
+      if (!allowed.test(prop)) found.push(`transition of "${prop}"`);
+    }
+  }
+  for (const [, body] of text.matchAll(/:(?:hover|active|focus-visible)[^{]*\{([^}]*)\}/g)) {
+    if (/(^|[;{\s])(transform|translate|scale|rotate|margin(-\w+)?|padding(-\w+)?|top|right|bottom|left|gap|width|height)\s*:/.test(body)) {
+      found.push(`moving state rule: ${body.trim()}`);
+    }
+  }
+  return found;
+}
+// Self-check: each sample must be caught, so the guard cannot silently weaken.
+for (const sample of [
+  '.a { transition-property: transform; }',
+  '.a { transition: translate 150ms ease; }',
+  '.a { transition: margin-left 150ms ease; }',
+  '.a:hover { translate: 0 -2px; }',
+  '.a:hover { margin-top: -3px; }',
+  '.a:focus-visible { transform: scale(1.1); }',
+]) {
+  assert.notDeepEqual(motionViolations(sample), [], `motion guard missed: ${sample}`);
+}
+assert.deepEqual(motionViolations('.a { transition: color var(--motion-fast) ease, border-left-color var(--motion-fast) ease; } .a:focus-visible { outline-offset: 2px; text-underline-offset: 0.25rem; }'), [], 'motion guard flags allowed colour transitions');
 for (const file of sourceFiles) {
-  const text = read(file);
-  assert.doesNotMatch(text, /\bgsap\b|data-animate/, `${file}: entrance animations are not allowed (${motionSpec})`);
-  for (const [, value] of text.matchAll(/transition:\s*([^;]+);/g)) {
-    assert.doesNotMatch(value, /\b(transform|gap|width|height|all)\b/, `${file}: transition must be colour/opacity only, got "${value.trim()}" (${motionSpec})`);
-  }
-  for (const [, body] of text.matchAll(/:(?:hover|active)[^{]*\{([^}]*)\}/g)) {
-    assert.doesNotMatch(body, /\b(transform|gap)\s*:/, `${file}: hover/active must not move elements (${motionSpec})`);
-  }
+  assert.deepEqual(motionViolations(read(file)), [], `${file}: motion must be colour-only (${motionSpec})`);
 }
 assert.match(siteHead, /addEventListener\('touchstart',\s*\(\)\s*=>\s*\{\},\s*\{\s*passive:\s*true\s*\}\)/, 'SiteHead must register a passive touchstart listener so iOS Safari applies :active');
 // Drops every `@media (hover: hover) { ... }` block, matching braces so one-line rules inside are handled.
