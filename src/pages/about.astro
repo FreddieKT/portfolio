@@ -496,8 +496,8 @@ const stack = [
     transform: rotate(90deg);
   }
 
-  .timeline-row.is-open .timeline-toggle {
-    transform: rotate(45deg);
+  .timeline-row.is-open .timeline-toggle::after {
+    display: none;
   }
 
   .timeline.js .timeline-panel {

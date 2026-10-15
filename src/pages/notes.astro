@@ -135,7 +135,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
   .note-title a {
     color: var(--foreground);
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: color var(--motion-fast) ease;
   }
 
   .note-title a:hover {
@@ -161,11 +161,16 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-top: 0.25rem;
-    transition: gap var(--motion-fast) ease;
   }
 
-  .note-read-link:hover {
-    gap: 0.75rem;
+  .note-read-link:active {
+    text-decoration: underline;
+  }
+
+  @media (hover: hover) {
+    .note-read-link:hover {
+      text-decoration: underline;
+    }
   }
 
   .empty-state {

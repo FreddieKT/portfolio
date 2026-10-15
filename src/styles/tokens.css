@@ -64,10 +64,7 @@
 
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
 
-  --motion-fast: 160ms;
-  --motion-base: 200ms;
-  --lift: -3px;
-  --nudge: 4px;
+  --motion-fast: 150ms;
 }
 
 :root[data-theme="light"] {
@@ -147,8 +144,5 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion-fast: 0ms;
-    --motion-base: 0ms;
-    --lift: 0px;
-    --nudge: 0px;
   }
 }
