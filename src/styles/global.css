@@ -16,6 +16,32 @@
   box-sizing: border-box;
 }
 
+/* Page transition: the browser cross-fades page snapshots (opacity only); real content never animates.
+ * The header keeps a fixed name and no animation, so only the content changes. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: var(--motion-page);
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
 html {
   -webkit-tap-highlight-color: transparent;
   min-width: 320px;

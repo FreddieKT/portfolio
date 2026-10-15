@@ -131,7 +131,8 @@ const sourceFiles = walk('src').filter((file) => /\.(astro|css|ts)$/.test(file))
 
 // Motion guard: colour-only feedback. See docs/superpowers/specs/2026-10-14-motion-refactor-design.md
 const motionSpec = 'docs/superpowers/specs/2026-10-14-motion-refactor-design.md';
-function motionViolations(text) {
+function motionViolations(source) {
+  const text = source.replace(/\/\*[\s\S]*?\*\//g, ''); // comments are prose, not declarations
   const found = [];
   if (/\bgsap\b|data-animate/.test(text)) found.push('entrance animation (gsap/data-animate)');
   // Allowlist from the spec: only colour-ish properties (and small-icon opacity) may transition.
@@ -147,6 +148,12 @@ function motionViolations(text) {
       found.push(`moving state rule: ${body.trim()}`);
     }
   }
+  // Keyframes (incl. view-transition overrides) may only animate opacity.
+  for (const [, name, body] of text.matchAll(/@keyframes\s+([\w-]+)\s*\{([\s\S]*?\})\s*\}/g)) {
+    for (const [, prop] of body.matchAll(/([\w-]+)\s*:/g)) {
+      if (prop !== 'opacity') found.push(`keyframes ${name} animates "${prop}"`);
+    }
+  }
   return found;
 }
 // Self-check: each sample must be caught, so the guard cannot silently weaken.
@@ -157,13 +164,19 @@ for (const sample of [
   '.a:hover { translate: 0 -2px; }',
   '.a:hover { margin-top: -3px; }',
   '.a:focus-visible { transform: scale(1.1); }',
+  '@keyframes slide-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }',
 ]) {
   assert.notDeepEqual(motionViolations(sample), [], `motion guard missed: ${sample}`);
 }
-assert.deepEqual(motionViolations('.a { transition: color var(--motion-fast) ease, border-left-color var(--motion-fast) ease; } .a:focus-visible { outline-offset: 2px; text-underline-offset: 0.25rem; }'), [], 'motion guard flags allowed colour transitions');
+assert.deepEqual(motionViolations('/* Page transition: the browser fades */ .a { transition: color var(--motion-fast) ease, border-left-color var(--motion-fast) ease; } .a:focus-visible { outline-offset: 2px; text-underline-offset: 0.25rem; }'), [], 'motion guard flags allowed colour transitions');
 for (const file of sourceFiles) {
   assert.deepEqual(motionViolations(read(file)), [], `${file}: motion must be colour-only (${motionSpec})`);
 }
+// Page transition: native cross-document fade, off under reduced motion, header held still.
+assert.match(globalCss, /@media \(prefers-reduced-motion: no-preference\) \{\s*@view-transition \{\s*navigation: auto;/, 'page transitions use native @view-transition, enabled only without reduced motion');
+assert.match(globalCss, /::view-transition-group\(site-header\)\s*\{\s*animation: none;/, 'header must not animate during page transitions');
+assert.match(header, /view-transition-name: site-header;/, 'header needs a view-transition-name so it stays still across pages');
+assert.match(tokenCss, /--motion-page: 200ms;/, 'page transition duration comes from one token');
 assert.ok(siteHead.indexOf("addEventListener('touchstart'") < siteHead.indexOf('localStorage'), 'touchstart listener must register before localStorage access, which can throw when storage is blocked');
 assert.match(siteHead, /addEventListener\('touchstart',\s*\(\)\s*=>\s*\{\},\s*\{\s*passive:\s*true\s*\}\)/, 'SiteHead must register a passive touchstart listener so iOS Safari applies :active');
 // Drops every `@media (hover: hover) { ... }` block, matching braces so one-line rules inside are handled.

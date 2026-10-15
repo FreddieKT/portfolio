@@ -65,6 +65,7 @@
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
 
   --motion-fast: 150ms;
+  --motion-page: 200ms;
 }
 
 :root[data-theme="light"] {

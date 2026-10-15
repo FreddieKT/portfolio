@@ -30,6 +30,7 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
   /* Hallmark · component: navigation · genre: terminal · theme: existing tokens
    * Centered text navigation; no group container, with an underline for the current page. */
   .site-header {
+    view-transition-name: site-header;
     display: grid;
     --nav-radius: 999px;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);

@@ -32,7 +32,8 @@ Success criteria:
 
 ## Decisions (from brainstorming)
 
-- **Purpose of motion: feedback only.** There are no entrance animations and no page transitions. Pages paint in their final state.
+- **Purpose of motion: feedback only.** There are no entrance animations, and pages paint in their final state.
+- **Page transition (added 2026-10-15 at Freddie's request):** a native cross-document opacity cross-fade. It is browser-driven and needs no JS (see F).
 - **Feedback style: colour only.** Hover and press change `color`, `background-color` and `border-color`. Nothing moves, lifts or scales.
 - **Small effects:** Freddie delegated these. The theme icon swaps instantly. The Education expand stays instant. The background grid is kept, but rendered more cheaply (see C).
 
@@ -84,7 +85,15 @@ Change `--motion-fast` from 160 ms to 150 ms.
 
 ### E. Reduced motion
 
-`@media (prefers-reduced-motion: reduce)` sets `--motion-fast: 0ms`. That is the only place reduced motion is handled.
+`@media (prefers-reduced-motion: reduce)` sets `--motion-fast: 0ms`, and the page transition is only enabled under `prefers-reduced-motion: no-preference`.
+
+### F. Page transition
+
+- `@view-transition { navigation: auto; }` sits inside `@media (prefers-reduced-motion: no-preference)` in `global.css`.
+- The browser cross-fades page snapshots using its default opacity fade over `--motion-page` (200 ms). The real DOM never animates, so nothing paints and then moves.
+- The header has `view-transition-name: site-header`. Its group, old and new pseudos have no animation, so the header holds still while the content fades.
+- Any `@keyframes` in `src/` may animate only `opacity`, and the `npm test` guard enforces this.
+- Support: Safari 18.2+ and Chromium 126+, headed. Headless Chromium does not run cross-document transitions. Other browsers navigate instantly.
 
 ## Verification
 
@@ -107,6 +116,6 @@ Change `--motion-fast` from 160 ms to 150 ms.
 
 ## Out of scope
 
-- Client-side routing (ClientRouter) and view transitions.
+- Client-side routing (ClientRouter). Slide or transform page transitions.
 - Content, layout and palette changes.
 - The `/labs` redirect rule in AGENTS.md, the unlinked `/notes`, and the OS light-mode preference.
