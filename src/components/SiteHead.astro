@@ -53,3 +53,19 @@ const imageUrl = new URL(site.ogImage, siteOrigin).toString();
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
+
+<script>
+  // Each new text selection takes the next colour from --selection-1..8 (tokens.css),
+  // so two selections in a row never match.
+  const colours = 8;
+  let next = Math.floor(Math.random() * colours);
+  let selecting = false;
+  document.addEventListener('selectionchange', () => {
+    const active = !document.getSelection()?.isCollapsed;
+    if (active && !selecting) {
+      document.documentElement.style.setProperty('--selection-bg', `var(--selection-${next + 1})`);
+      next = (next + 1) % colours;
+    }
+    selecting = active;
+  });
+</script>

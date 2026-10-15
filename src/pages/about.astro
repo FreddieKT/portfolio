@@ -202,23 +202,38 @@ const stack = [
   </div>
 
   <script>
-    const sections = document.querySelectorAll('#identity, #stack, #approach, #links');
-    const sidebarLinks = document.querySelectorAll('.sidebar-item');
+    // Scroll-spy: the active item is the last section whose top has passed a line 35% down the
+    // viewport, or the last section once the page bottoms out. Reading positions on scroll (not an
+    // observer band) stays correct after jumps and never lands in the gap between sections.
+    // A click marks its item at once and holds it while the smooth scroll settles.
+    const sidebarLinks = [...document.querySelectorAll<HTMLAnchorElement>('.sidebar-item')];
+    const sections = sidebarLinks.map((link) => document.querySelector<HTMLElement>(link.hash));
+    const setActive = (hash: string) => sidebarLinks.forEach((link) => link.classList.toggle('is-active', link.hash === hash));
+    let heldUntil = 0;
+    let queued = false;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            sidebarLinks.forEach((link) => {
-              link.classList.toggle('is-active', link.getAttribute('href') === `#${entry.target.id}`);
-            });
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
+    const update = () => {
+      queued = false;
+      if (performance.now() < heldUntil) return;
+      const line = innerHeight * 0.35;
+      let current = sections[0];
+      for (const section of sections) if (section && section.getBoundingClientRect().top <= line) current = section;
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = sections.at(-1) ?? current;
+      if (current) setActive(`#${current.id}`);
+    };
 
-    sections.forEach((s) => observer.observe(s));
+    addEventListener('scroll', () => {
+      if (!queued) requestAnimationFrame(update);
+      queued = true;
+    }, { passive: true });
+    update();
+
+    sidebarLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        setActive(link.hash);
+        heldUntil = performance.now() + 1000;
+      });
+    });
 
     const timeline = document.querySelector('.timeline');
     timeline?.classList.add('js');

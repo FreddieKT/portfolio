@@ -89,7 +89,7 @@ textarea {
 
 ::selection {
   background: var(--selection-bg);
-  color: var(--foreground);
+  color: var(--selection-fg);
 }
 
 .page-shell {
