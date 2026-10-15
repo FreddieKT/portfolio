@@ -141,6 +141,26 @@ for (const file of sourceFiles) {
     assert.doesNotMatch(body, /\b(transform|gap)\s*:/, `${file}: hover/active must not move elements (${motionSpec})`);
   }
 }
+assert.match(siteHead, /addEventListener\('touchstart',\s*\(\)\s*=>\s*\{\},\s*\{\s*passive:\s*true\s*\}\)/, 'SiteHead must register a passive touchstart listener so iOS Safari applies :active');
+// Drops every `@media (hover: hover) { ... }` block, matching braces so one-line rules inside are handled.
+function stripHoverMedia(css) {
+  const open = /@media\s*\(hover:\s*hover\)\s*\{/g;
+  let out = '';
+  let from = 0;
+  for (let m; (m = open.exec(css)); ) {
+    out += css.slice(from, m.index);
+    let depth = 1;
+    let i = open.lastIndex;
+    while (depth && i < css.length) depth += css[i] === '{' ? 1 : css[i] === '}' ? -1 : 0, i++;
+    from = open.lastIndex = i;
+  }
+  return out + css.slice(from);
+}
+for (const file of sourceFiles.filter((f) => f.endsWith('.astro') || f.endsWith('.css'))) {
+  const text = read(file);
+  const ungated = stripHoverMedia(text).match(/[^\n]*:hover[^\n]*/g) ?? [];
+  assert.deepEqual(ungated, [], `${file}: :hover must live inside @media (hover: hover)`);
+}
 const staleDarkPattern = /background:\s*rgba\(10, 13, 18, 0\.92\)/;
 const stale = sourceFiles.filter((file) => staleDarkPattern.test(read(file)));
 assert.deepEqual(stale, [], `stale hardcoded dark component backgrounds: ${stale.join(', ')}`);

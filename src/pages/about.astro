@@ -345,12 +345,21 @@ const stack = [
     transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
   }
 
-  .link-row:hover {
+  .link-row:active {
     background: var(--accent-soft);
     color: var(--accent);
   }
 
-  .link-row:hover .link-dot { background: var(--accent); opacity: 1; }
+  .link-row:active .link-dot { background: var(--accent); opacity: 1; }
+
+  @media (hover: hover) {
+    .link-row:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .link-row:hover .link-dot { background: var(--accent); opacity: 1; }
+  }
 
   .link-dot {
     width: 0.55rem;
@@ -456,9 +465,15 @@ const stack = [
     cursor: pointer;
   }
 
-  .timeline-head:hover .timeline-text,
-  .timeline-head:focus-visible .timeline-text {
+  .timeline-head:focus-visible .timeline-text,
+  .timeline-head:active .timeline-text {
     color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .timeline-head:hover .timeline-text {
+      color: var(--accent);
+    }
   }
 
   .timeline-head:focus-visible {

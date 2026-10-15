@@ -57,9 +57,15 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus-visible {
+a:focus-visible,
+a:active {
   color: var(--accent);
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent);
+  }
 }
 
 img,
@@ -137,11 +143,19 @@ h1.section-label {
   transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
 }
 
-.nav-pill:hover,
-.nav-pill:focus-visible {
+.nav-pill:focus-visible,
+.nav-pill:active {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+@media (hover: hover) {
+  .nav-pill:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
 }
 
 .primary-pill {
@@ -205,13 +219,15 @@ h1.section-label {
   transition: background var(--motion-fast) ease;
 }
 
-.grid-tags > span:hover {
-  background: var(--accent-soft);
-}
+@media (hover: hover) {
+  .grid-tags > span:hover {
+    background: var(--accent-soft);
+  }
 
-.grid-tags > span:hover .tag-dot {
-  background: currentColor;
-  opacity: 1;
+  .grid-tags > span:hover .tag-dot {
+    background: currentColor;
+    opacity: 1;
+  }
 }
 
 .grid-tags > span + span {

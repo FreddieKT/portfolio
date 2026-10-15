@@ -86,8 +86,14 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     transition: border-color var(--motion-fast) ease;
   }
 
-  .note-card:hover {
+  .note-card:active {
     border-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .note-card:hover {
+      border-color: var(--accent);
+    }
   }
 
   /* Meta row — date + publisher + tags */
@@ -138,8 +144,14 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     transition: color var(--motion-fast) ease;
   }
 
-  .note-title a:hover {
+  .note-title a:active {
     color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .note-title a:hover {
+      color: var(--accent);
+    }
   }
 
   /* Summary */

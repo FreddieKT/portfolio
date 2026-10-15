@@ -80,10 +80,17 @@
     transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
   }
 
-  .theme-toggle:hover,
-  .theme-toggle:focus-visible {
+  .theme-toggle:focus-visible,
+  .theme-toggle:active {
     border-color: var(--accent);
     background: var(--accent-soft);
+  }
+
+  @media (hover: hover) {
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
   }
 
   .theme-icon-svg {

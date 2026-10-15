@@ -45,8 +45,14 @@ const { project } = Astro.props;
     transition: background var(--motion-fast) ease;
   }
 
-  .row-link:hover {
+  .row-link:active {
     background: var(--accent-soft);
+  }
+
+  @media (hover: hover) {
+    .row-link:hover {
+      background: var(--accent-soft);
+    }
   }
 
   .row-link:focus-visible {
@@ -70,7 +76,11 @@ const { project } = Astro.props;
     transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
   }
 
-  .row-link:hover .row-dot { background: var(--accent); opacity: 1; }
+  .row-link:active .row-dot { background: var(--accent); opacity: 1; }
+
+  @media (hover: hover) {
+    .row-link:hover .row-dot { background: var(--accent); opacity: 1; }
+  }
 
   .row-body {
     display: grid;

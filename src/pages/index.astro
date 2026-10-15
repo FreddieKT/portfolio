@@ -83,10 +83,17 @@ import { projects } from '../data/projects';
     text-transform: uppercase;
   }
 
-  .section-pointer:hover,
-  .section-pointer:focus-visible {
+  .section-pointer:focus-visible,
+  .section-pointer:active {
     text-decoration: underline;
     text-underline-offset: 0.25rem;
+  }
+
+  @media (hover: hover) {
+    .section-pointer:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.25rem;
+    }
   }
 
   .project-list {

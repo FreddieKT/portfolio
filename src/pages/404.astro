@@ -38,7 +38,13 @@ import SectionLabel from '../components/SectionLabel.astro';
     padding-top: 1rem;
     text-decoration: none;
   }
-  .return-link:hover {
+  .return-link:active {
     text-decoration: underline;
+  }
+
+  @media (hover: hover) {
+    .return-link:hover {
+      text-decoration: underline;
+    }
   }
 </style>
