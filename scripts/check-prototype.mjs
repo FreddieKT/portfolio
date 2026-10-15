@@ -62,11 +62,11 @@ assert.match(themeToggle, /height:\s*2\.75rem/, 'theme toggle should keep a comp
 assert.match(themeToggle, /theme-icon-svg/, 'theme toggle should use an SVG icon, not the old CSS-only dot');
 assert.match(themeToggle, /class="moon-icon"/, 'theme toggle needs a visible moon icon group');
 assert.match(themeToggle, /class="sun-icon"/, 'theme toggle needs a visible sun icon group');
-assert.match(themeToggle, /sun-rays/, 'theme toggle should include animated light-mode rays');
+assert.match(themeToggle, /sun-rays/, 'theme toggle should include light-mode rays');
 assert.match(themeToggle, /freddie-portfolio-theme/, 'theme toggle should use the freddie-portfolio localStorage key');
 assert.doesNotMatch(themeToggle + pageLayout, /ktt-dev-theme/, 'no source file should reference the old ktt-dev-theme localStorage key');
 assert.match(themeToggle, /vector-effect="non-scaling-stroke"/, 'theme icon strokes should render crisply and reliably');
-assert.match(themeToggle, /transition:/, 'theme toggle icon should animate between light and dark states');
+assert.doesNotMatch(themeToggle, /@keyframes|animation:/, 'theme toggle icon swaps instantly (motion is colour-only)');
 assert.match(index, /<SiteHead\s*\/>/, 'homepage should use shared SiteHead metadata component');
 assert.match(read('src/layouts/PageLayout.astro'), /<SiteHead[\s\S]*path=\{path\}/, 'inner pages should use shared SiteHead metadata component');
 assert.match(siteHead, /rel="canonical"/, 'shared head should render canonical URLs');
@@ -90,8 +90,7 @@ for (const asset of [
   assert.ok(statSync(join(root, asset)).size > 0, `${asset} should exist and be non-empty`);
 }
 
-assert.ok(pkg.dependencies?.gsap, 'gsap dependency must be installed');
-assert.match(index, /gsap/i, 'page must load GSAP animation script');
+assert.ok(!pkg.dependencies?.gsap && !pkg.devDependencies?.gsap, 'gsap must not be installed: motion is CSS colour-only (see docs/superpowers/specs/2026-10-14-motion-refactor-design.md)');
 assert.match(index, /class="section-pointer" href="\/about"/, 'homepage about section should point to the full about page');
 assert.match(index, /class="section-pointer" href="\/labs"/, 'homepage labs section should point to the labs index page');
 assert.doesNotMatch(index, /mini-preview-grid/, 'homepage should avoid dense preview-card grids');
@@ -129,6 +128,19 @@ function walk(dir) {
 }
 
 const sourceFiles = walk('src').filter((file) => /\.(astro|css|ts)$/.test(file));
+
+// Motion guard: colour-only feedback. See docs/superpowers/specs/2026-10-14-motion-refactor-design.md
+const motionSpec = 'docs/superpowers/specs/2026-10-14-motion-refactor-design.md';
+for (const file of sourceFiles) {
+  const text = read(file);
+  assert.doesNotMatch(text, /\bgsap\b|data-animate/, `${file}: entrance animations are not allowed (${motionSpec})`);
+  for (const [, value] of text.matchAll(/transition:\s*([^;]+);/g)) {
+    assert.doesNotMatch(value, /\b(transform|gap|width|height|all)\b/, `${file}: transition must be colour/opacity only, got "${value.trim()}" (${motionSpec})`);
+  }
+  for (const [, body] of text.matchAll(/:(?:hover|active)[^{]*\{([^}]*)\}/g)) {
+    assert.doesNotMatch(body, /\b(transform|gap)\s*:/, `${file}: hover/active must not move elements (${motionSpec})`);
+  }
+}
 const staleDarkPattern = /background:\s*rgba\(10, 13, 18, 0\.92\)/;
 const stale = sourceFiles.filter((file) => staleDarkPattern.test(read(file)));
 assert.deepEqual(stale, [], `stale hardcoded dark component backgrounds: ${stale.join(', ')}`);
