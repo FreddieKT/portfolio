@@ -18,7 +18,7 @@ const sidebarItems = projects.map((project) => ({
   <PageSidebar slot="sidebar" heading="LABS" items={sidebarItems} activeHref="/labs" />
 
   <section class="labs-index">
-    <div class="page-section frame hero-panel" data-animate="page-section">
+    <div class="page-section frame hero-panel">
       <SectionLabel>Labs</SectionLabel>
       <h1>Projects and experiments.</h1>
       <p>
@@ -26,7 +26,7 @@ const sidebarItems = projects.map((project) => ({
       </p>
     </div>
 
-    <div class="page-section frame list-panel" data-animate="page-section">
+    <div class="page-section frame list-panel">
       <ul class="project-list" aria-label="Portfolio labs">
         {projects.map((project) => <ProjectCard project={project} />)}
       </ul>

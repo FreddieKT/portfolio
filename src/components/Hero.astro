@@ -20,7 +20,7 @@ const {
 
 <section class="hero-copy hero-photo-panel" aria-labelledby="hero-title">
   <div class="hero-intro">
-    <figure class="hero-portrait-frame" data-animate="hero-portrait">
+    <figure class="hero-portrait-frame">
       <Image
         src={profileAboutImage}
         alt="Freddie, the builder behind Freddie K."
@@ -34,15 +34,15 @@ const {
     </figure>
 
     <div class="hero-text-stack">
-      <div data-animate="hero-eyebrow"><SectionLabel>{eyebrow}</SectionLabel></div>
-      <h1 id="hero-title" class="hero-title hero-title-compact" data-animate="hero-heading">{title}</h1>
-      <p class="mono-copy hero-subtitle" data-animate="hero-subhead">{subtitle}</p>
+      <div><SectionLabel>{eyebrow}</SectionLabel></div>
+      <h1 id="hero-title" class="hero-title hero-title-compact">{title}</h1>
+      <p class="mono-copy hero-subtitle">{subtitle}</p>
     </div>
   </div>
 
   <div class="grid-tags hero-tags" aria-label="Categories">
     {categories.map((category) => (
-      <span data-animate="hero-tag">
+      <span>
         <span class="tag-dot" aria-hidden="true"></span>
         {category}
       </span>

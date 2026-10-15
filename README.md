@@ -6,7 +6,7 @@ Personal portfolio for **Freddie K.** It collects current projects, experiments,
 
 ## Stack
 
-Astro · TypeScript · CSS design tokens · GSAP
+Astro · TypeScript · CSS design tokens
 
 ## Run locally
 

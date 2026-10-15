@@ -33,21 +33,6 @@ const { title, description, path = Astro.url.pathname } = Astro.props;
       </div>
       <FooterStatus />
     </main>
-
-    <script>
-      import { gsap } from 'gsap';
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduceMotion) {
-        gsap.set('[data-animate="sidebar-item"]', { autoAlpha: 0, x: -12 });
-        gsap.set('[data-animate="page-section"]', { autoAlpha: 0, y: 16 });
-        gsap.to('[data-animate="sidebar-item"]', {
-          autoAlpha: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.06,
-        });
-        gsap.to('[data-animate="page-section"]', {
-          autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08, delay: 0.1,
-        });
-      }
-    </script>
   </body>
 </html>
 
