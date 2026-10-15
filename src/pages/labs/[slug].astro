@@ -36,7 +36,7 @@ const sidebarItems = projects.map((p) => ({
   />
 
   <article class="labs-detail">
-    <div class="page-section frame combined-panel" data-animate="page-section">
+    <div class="page-section frame combined-panel">
       <div class="markdown-prose">
         <h1>{project.title}</h1>
         <p class="meta"><strong>{project.category}</strong> &middot; {project.label}</p>
@@ -66,7 +66,7 @@ const sidebarItems = projects.map((p) => ({
       </div>
     </div>
 
-    <nav class="page-section frame project-nav" aria-label="Project navigation" data-animate="page-section">
+    <nav class="page-section frame project-nav" aria-label="Project navigation">
       <a class="nav-pill" href={`/labs/${prev.slug}`}>← {prev.title}</a>
       <a class="nav-pill" href={`/labs/${next.slug}`}>{next.title} →</a>
     </nav>

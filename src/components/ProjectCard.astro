@@ -8,7 +8,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<li class="project-row" data-animate="project-card">
+<li class="project-row">
   <a href={`/labs/${project.slug}`} class="row-link" aria-label={`View ${project.title}`}>
     <span class="row-num">{project.index}</span>
     <span class="row-dot" aria-hidden="true"></span>
