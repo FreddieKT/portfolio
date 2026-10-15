@@ -44,7 +44,7 @@ const sidebarItems = [
 
   <article class="note-article">
 
-    <header class="note-header frame page-section" data-animate="page-section">
+    <header class="note-header frame page-section">
       <div class="note-meta">
         <time class="note-date" datetime={note.data.date}>{note.data.date}</time>
         <span class="note-publisher" aria-label="Publisher">· {note.data.publisher}</span>
@@ -60,13 +60,13 @@ const sidebarItems = [
       <p class="mono-copy note-summary">{note.data.summary}</p>
     </header>
 
-    <div class="note-body frame page-section" data-animate="page-section">
+    <div class="note-body frame page-section">
       <div class="prose">
         <Content />
       </div>
     </div>
 
-    <footer class="note-footer frame page-section" data-animate="page-section">
+    <footer class="note-footer frame page-section">
       <a class="back-link" href="/notes">← Back to all notes</a>
     </footer>
 

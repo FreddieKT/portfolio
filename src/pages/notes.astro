@@ -17,7 +17,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
 
   <div class="notes-content">
 
-    <header class="page-section frame" data-animate="page-section">
+    <header class="page-section frame">
       <SectionLabel as="h1">Notes</SectionLabel>
       <p class="mono-copy">Notes from things I've tried and want to remember.</p>
     </header>
@@ -27,7 +27,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
         {notes.map((note) => {
           const slug = note.id.replace(/\.md$/, '');
           return (
-            <article class="note-card frame" data-animate="page-section">
+            <article class="note-card frame">
               <div class="note-meta">
                 <time class="note-date" datetime={note.data.date}>{note.data.date}</time>
                 <span class="note-publisher" aria-label="Publisher">· {note.data.publisher}</span>
@@ -51,7 +51,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
         })}
       </div>
     ) : (
-      <section class="page-section frame" data-animate="page-section">
+      <section class="page-section frame">
         <div class="empty-state">// no notes yet</div>
       </section>
     )}

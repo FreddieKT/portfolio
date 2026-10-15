@@ -21,7 +21,6 @@ const { items, activeHref, heading } = Astro.props;
         <a
           class:list={['sidebar-item', item.href === activeHref && 'is-active']}
           href={item.href}
-          data-animate="sidebar-item"
         >
           <span class="sidebar-num">{String(index + 1).padStart(2, '0')}</span>
           <span class="sidebar-label">{item.label}</span>

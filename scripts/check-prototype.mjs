@@ -90,8 +90,8 @@ for (const asset of [
   assert.ok(statSync(join(root, asset)).size > 0, `${asset} should exist and be non-empty`);
 }
 
-assert.ok(pkg.dependencies?.gsap, 'gsap dependency must be installed');
-assert.match(index, /gsap/i, 'page must load GSAP animation script');
+assert.ok(!pkg.dependencies?.gsap, 'no JS entrance animation: content must render instantly');
+assert.doesNotMatch(index, /gsap|data-animate/i, 'page must not hide content from JS after first paint');
 assert.match(index, /class="section-pointer" href="\/about"/, 'homepage about section should point to the full about page');
 assert.match(index, /class="section-pointer" href="\/labs"/, 'homepage labs section should point to the labs index page');
 assert.doesNotMatch(index, /mini-preview-grid/, 'homepage should avoid dense preview-card grids');
