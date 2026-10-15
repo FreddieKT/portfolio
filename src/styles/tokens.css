@@ -91,9 +91,11 @@
   --header-stuck: 4.25rem;
 }
 
-@media (max-width: 600px) {
+/* Two-row header: the header container drops below 19.5rem (Header.astro). The viewport is that
+   plus 3.5rem of page and header gutters. */
+@media (width < 23rem) {
   :root {
-    --header-stuck: 7.75rem; /* nav wraps to a second row */
+    --header-stuck: 7.75rem;
   }
 }
 
