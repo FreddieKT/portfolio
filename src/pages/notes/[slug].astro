@@ -284,8 +284,10 @@ const sidebarItems = [
     text-underline-offset: 3px;
   }
 
-  .prose :global(a:hover) {
-    text-decoration: underline;
+  @media (hover: hover) {
+    .prose :global(a:hover) {
+      text-decoration: underline;
+    }
   }
 
   /* Footer */
@@ -301,10 +303,12 @@ const sidebarItems = [
     color: var(--muted);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    transition: color 160ms ease;
+    transition: color var(--motion-fast) var(--motion-ease);
   }
 
-  .back-link:hover {
-    color: var(--accent);
+  @media (hover: hover) {
+    .back-link:hover {
+      color: var(--accent);
+    }
   }
 </style>

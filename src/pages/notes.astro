@@ -83,11 +83,17 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     gap: 0.75rem;
     padding: 1.5rem;
     border-radius: var(--radius-md);
-    transition: border-color var(--motion-fast) ease;
+    transition: border-color var(--motion-fast) var(--motion-ease);
   }
 
-  .note-card:hover {
+  .note-card:focus-within {
     border-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .note-card:hover {
+      border-color: var(--accent);
+    }
   }
 
   /* Meta row — date + publisher + tags */
@@ -135,11 +141,13 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
   .note-title a {
     color: var(--foreground);
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: color var(--motion-fast) var(--motion-ease);
   }
 
-  .note-title a:hover {
-    color: var(--accent);
+  @media (hover: hover) {
+    .note-title a:hover {
+      color: var(--accent);
+    }
   }
 
   /* Summary */
@@ -161,11 +169,6 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-top: 0.25rem;
-    transition: gap var(--motion-fast) ease;
-  }
-
-  .note-read-link:hover {
-    gap: 0.75rem;
   }
 
   .empty-state {

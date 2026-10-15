@@ -133,4 +133,24 @@ const staleDarkPattern = /background:\s*rgba\(10, 13, 18, 0\.92\)/;
 const stale = sourceFiles.filter((file) => staleDarkPattern.test(read(file)));
 assert.deepEqual(stale, [], `stale hardcoded dark component backgrounds: ${stale.join(', ')}`);
 
+// Motion system (docs/MOTION.md): timing lives in tokens.css only; pages crossfade natively.
+const motionTokenFile = 'src/styles/tokens.css';
+const hardcodedMotion = sourceFiles.filter((file) => file !== motionTokenFile && /\b\d+m?s\b|cubic-bezier|\bease(-in|-out|-in-out)?\b/.test(read(file).replace(/var\(--motion-[a-z]+\)/g, '')));
+assert.deepEqual(hardcodedMotion, [], `motion durations/easing must use tokens: ${hardcodedMotion.join(', ')}`);
+assert.match(read('src/styles/motion.css'), /@view-transition\s*\{\s*navigation:\s*auto/, 'pages must use the native cross-document view transition');
+
+// :hover sticks after a tap on touch screens, so every hover rule must sit inside @media (hover: hover).
+const ungatedHover = sourceFiles.filter((file) => {
+  let depth = 0;
+  const gates = [];
+  for (const line of read(file).split('\n')) {
+    if (/@media\s*\(hover:\s*hover\)/.test(line)) gates.push(depth);
+    if (/:hover/.test(line) && !gates.length) return true;
+    depth += (line.match(/\{/g) ?? []).length - (line.match(/\}/g) ?? []).length;
+    while (gates.length && depth <= gates.at(-1)) gates.pop();
+  }
+  return false;
+});
+assert.deepEqual(ungatedHover, [], `:hover outside @media (hover: hover): ${ungatedHover.join(', ')}`);
+
 console.log('prototype checks passed');

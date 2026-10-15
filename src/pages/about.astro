@@ -342,15 +342,24 @@ const stack = [
     gap: 0.75rem;
     padding: 0.85rem 1rem;
     min-width: 0;
-    transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
+    transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
   }
 
-  .link-row:hover {
+  .link-row:is(:focus-visible, :active) {
     background: var(--accent-soft);
     color: var(--accent);
   }
 
-  .link-row:hover .link-dot { background: var(--accent); opacity: 1; }
+  .link-row:is(:focus-visible, :active) .link-dot { background: var(--accent); opacity: 1; }
+
+  @media (hover: hover) {
+    .link-row:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .link-row:hover .link-dot { background: var(--accent); opacity: 1; }
+  }
 
   .link-dot {
     width: 0.55rem;
@@ -359,7 +368,7 @@ const stack = [
     border-radius: 999px;
     flex-shrink: 0;
     opacity: 0.75;
-    transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
+    transition: background var(--motion-fast) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
   }
 
   .link-label {
@@ -456,9 +465,14 @@ const stack = [
     cursor: pointer;
   }
 
-  .timeline-head:hover .timeline-text,
   .timeline-head:focus-visible .timeline-text {
     color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .timeline-head:hover .timeline-text {
+      color: var(--accent);
+    }
   }
 
   .timeline-head:focus-visible {
@@ -471,7 +485,7 @@ const stack = [
     color: var(--foreground-soft);
     min-width: 0;
     overflow-wrap: anywhere;
-    transition: color var(--motion-fast) ease;
+    transition: color var(--motion-fast) var(--motion-ease);
   }
 
   .timeline-toggle {
@@ -481,6 +495,7 @@ const stack = [
     height: 0.85rem;
     margin-top: 0.2rem;
     color: var(--accent);
+    transition: transform var(--motion-base) var(--motion-ease);
   }
 
   .timeline-toggle::before,
@@ -514,6 +529,15 @@ const stack = [
   .timeline-inner {
     min-height: 0;
     overflow: hidden;
+  }
+
+  .timeline.js .timeline-inner {
+    opacity: 0;
+    transition: opacity var(--motion-base) var(--motion-ease);
+  }
+
+  .timeline.js .is-open .timeline-inner {
+    opacity: 1;
   }
 
   .timeline-label {

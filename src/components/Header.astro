@@ -76,8 +76,10 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     text-decoration-thickness: 2px;
     text-underline-offset: 6px;
   }
-  .nav-link:hover { color: var(--accent); }
-  .brand-mark:hover { color: var(--accent); }
+  @media (hover: hover) {
+    .nav-link:hover, .brand-mark:hover { color: var(--accent); }
+    .theme-control :global(.theme-toggle:hover) { color: var(--accent); background: var(--interactive-overlay); }
+  }
   .nav-link:focus-visible, .brand-mark:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -91,9 +93,7 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     background: var(--interactive-overlay);
     color: var(--muted);
     box-shadow: none;
-    transition: none;
   }
-  .theme-control :global(.theme-toggle:hover),
   .theme-control :global(.theme-toggle:focus-visible) {
     color: var(--accent);
     background: var(--interactive-overlay);
