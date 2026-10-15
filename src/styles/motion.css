@@ -6,6 +6,7 @@
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
+    types: page;
   }
 }
 
@@ -17,6 +18,19 @@
 
 .site-header {
   view-transition-name: site-header;
+}
+
+/* On page navigation the header swaps instantly instead of morphing. Leaving a scrolled page, the
+   old header is stuck at top: -1rem with its pill showing, while the new one sits at the top with
+   no pill. A morph between them slid and crossfaded the pill (the brief "header grows" on home).
+   Theme switches are not typed `page`, so the header still crossfades with the page there. */
+html:active-view-transition-type(page)::view-transition-group(site-header),
+html:active-view-transition-type(page)::view-transition-new(site-header) {
+  animation: none;
+}
+
+html:active-view-transition-type(page)::view-transition-old(site-header) {
+  display: none;
 }
 
 /* Theme switch: the view transition crossfades the page, so per-element
