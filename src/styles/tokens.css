@@ -74,6 +74,7 @@
   --border-solid-strong: 1px solid var(--border-strong);
 
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.35);
 
   --motion-fast: 150ms;
   --motion-base: 200ms;
@@ -122,6 +123,7 @@
   --border-dashed-color: rgba(24, 24, 24, 0.4);
 
   --shadow-panel: 0 18px 42px rgba(24, 24, 24, 0.08);
+  --shadow-float: 0 10px 30px rgba(24, 24, 24, 0.1);
 }
 
 @media (prefers-color-scheme: light) {
@@ -158,6 +160,7 @@
     --border-dashed-color: rgba(24, 24, 24, 0.4);
 
     --shadow-panel: 0 18px 42px rgba(24, 24, 24, 0.08);
+    --shadow-float: 0 10px 30px rgba(24, 24, 24, 0.1);
   }
 }
 

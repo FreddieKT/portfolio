@@ -36,23 +36,43 @@ section[id] {
   scroll-margin-top: calc(var(--header-stuck) + 1.5rem);
 }
 
-/* Sticky header: its hairline fades in over the first 4rem of scroll (scroll-driven, no JS).
-   Browsers without scroll timelines simply show no hairline. */
+/* Sticky header: the floating pill fades and settles in over the first 4rem of scroll
+   (scroll-driven, no JS). Opacity and transform only. */
 @supports (animation-timeline: scroll()) {
-  .site-header::after {
-    animation: header-divider linear both;
+  .site-header::before {
+    /* Hidden until the timeline resolves, so the first frame never flashes the pill. */
+    opacity: 0;
+    animation: header-float linear both;
   }
 
   /* Separate selector on purpose: the minifier folds a same-rule animation-timeline into the
      animation shorthand, which browsers reject. */
-  html .site-header::after {
+  html .site-header::before {
     animation-timeline: scroll(root);
     animation-range: 0 4rem;
   }
 }
 
-@keyframes header-divider {
+@keyframes header-float {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
   to {
     opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes header-float {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 }
