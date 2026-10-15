@@ -1,34 +1,52 @@
-// Usage: node scripts/measure-dim.mjs <baseUrl> [from] [linkText]
-// Clicks a nav link on a 375px page, screencasts the navigation and prints mean brightness per frame.
-import { chromium } from '@playwright/test';
-import sharp from 'sharp';
+// Usage: node scripts/measure-dim.mjs <baseUrl> [webkit|chromium]
+// Taps through routes on an iPhone profile. Per navigation it reports frame gaps
+// over 50ms, layout shift, and whether any content painted below full opacity or
+// moved after first paint. Pass criteria: docs/superpowers/specs/2026-10-14-motion-refactor-design.md
+import { chromium, webkit, devices } from '@playwright/test';
 
-const [base, from = '/contact/', link = 'About'] = process.argv.slice(2);
-const browser = await chromium.launch();
-const ctx = await browser.newContext({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 1 });
-const page = await ctx.newPage();
-await page.goto(base + from, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1500);
-
-const cdp = await ctx.newCDPSession(page);
-const frames = [];
-cdp.on('Page.screencastFrame', async (f) => {
-  frames.push({ t: f.metadata.timestamp, data: f.data });
-  await cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId });
+const [base, engine = 'webkit'] = process.argv.slice(2);
+if (!base) throw new Error('usage: node scripts/measure-dim.mjs <baseUrl> [webkit|chromium]');
+const browser = await (engine === 'chromium' ? chromium : webkit).launch();
+const ctx = await browser.newContext({ ...devices['iPhone 13'] });
+await ctx.addInitScript(() => {
+  const t0 = performance.now();
+  const log = (window.__motion = { gaps: [], shift: 0, dimmed: false, moved: false });
+  let last = t0;
+  let firstTop;
+  const tick = (t) => {
+    if (t - last > 50) log.gaps.push(Math.round(t - last));
+    last = t;
+    // .page-section / .section-panel are the content blocks GSAP used to fade (classes stay after the refactor)
+    const el = document.querySelector('.page-section, .section-panel');
+    if (el) {
+      const top = el.getBoundingClientRect().top + scrollY;
+      firstTop ??= top;
+      if (Math.abs(top - firstTop) > 0.5) log.moved = true;
+      if (getComputedStyle(el).opacity !== '1') log.dimmed = true;
+    }
+    if (t - t0 < 1500) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+  new PerformanceObserver((list) => list.getEntries().forEach((e) => { log.shift += e.value; })).observe({ type: 'layout-shift', buffered: true });
 });
-await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 60, everyNthFrame: 1 });
-await page.waitForTimeout(200);
-const t0 = Date.now() / 1000;
-await page.getByRole('link', { name: link, exact: true }).first().click();
-await page.waitForTimeout(2000);
-await cdp.send('Page.stopScreencast');
-
-const out = [];
-for (const f of frames) {
-  const { channels } = await sharp(Buffer.from(f.data, 'base64')).stats();
-  const lum = channels.reduce((s, c) => s + c.mean, 0) / channels.length;
-  out.push([Math.round((f.t - t0) * 1000), Math.round(lum)]);
+const page = await ctx.newPage();
+const routes = [
+  ['/about/', 'a.nav-link[href="/contact"]'],
+  ['/contact/', 'a.nav-link[href="/labs"]'],
+  ['/labs/', 'a.brand-mark'],
+  ['/', 'a.row-link'],
+];
+let failed = false;
+for (const [from, selector] of routes) {
+  await page.goto(base + from, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(800);
+  await page.locator(selector).first().tap();
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(1600);
+  const m = await page.evaluate(() => window.__motion);
+  const ok = m.gaps.length === 0 && m.shift === 0 && !m.dimmed && !m.moved;
+  failed ||= !ok;
+  console.log(JSON.stringify({ engine, from, to: page.url().replace(base, ''), ok, ...m }));
 }
-console.log(base, 'url after:', page.url());
-console.log(out.filter(([t]) => t > -400).map(([t, l]) => `${t}ms:${l}`).join(' '));
 await browser.close();
+process.exit(failed ? 1 : 0);
