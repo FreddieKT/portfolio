@@ -202,13 +202,26 @@ const stack = [
   </div>
 
   <script>
+    import { gsap } from 'gsap';
+    import { Flip, layoutTween, prefersReducedMotion } from '../scripts/motion';
+
     // Scroll-spy: the active item is the last section whose top has passed a line 35% down the
     // viewport, or the last section once the page bottoms out. Reading positions on scroll (not an
     // observer band) stays correct after jumps and never lands in the gap between sections.
     // A click marks its item at once and holds it while the smooth scroll settles.
     const sidebarLinks = [...document.querySelectorAll<HTMLAnchorElement>('.sidebar-item')];
     const sections = sidebarLinks.map((link) => document.querySelector<HTMLElement>(link.hash));
-    const setActive = (hash: string) => sidebarLinks.forEach((link) => link.classList.toggle('is-active', link.hash === hash));
+    const indicator = document.querySelector<HTMLElement>('.sidebar-indicator');
+    // The highlight block slides to the new item with Flip. The first call at load just places it
+    // (no animation), so nothing moves before the reader does anything.
+    const setActive = (hash: string, animate = true) => {
+      const target = sidebarLinks.find((link) => link.hash === hash);
+      sidebarLinks.forEach((link) => link.classList.toggle('is-active', link === target));
+      if (!indicator || !target || target.contains(indicator)) return;
+      const state = Flip.getState(indicator);
+      target.prepend(indicator);
+      if (animate && !prefersReducedMotion()) Flip.from(state, { ...layoutTween(), overwrite: true });
+    };
     let heldUntil = 0;
     let queued = false;
 
@@ -219,19 +232,49 @@ const stack = [
       let current = sections[0];
       for (const section of sections) if (section && section.getBoundingClientRect().top <= line) current = section;
       if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = sections.at(-1) ?? current;
-      if (current) setActive(`#${current.id}`);
+      if (current) setActive(`#${current.id}`, !initial);
     };
+    let initial = true;
 
     addEventListener('scroll', () => {
       if (!queued) requestAnimationFrame(update);
       queued = true;
     }, { passive: true });
     update();
+    initial = false;
 
     sidebarLinks.forEach((link) => {
       link.addEventListener('click', () => {
         setActive(link.hash);
         heldUntil = performance.now() + 1000;
+      });
+    });
+
+    // Timeline rows open and close by growing/shrinking their panel; everything below follows.
+    // Native <details> still decides the start state (closed on the first frame) and works without JS.
+    document.querySelectorAll<HTMLDetailsElement>('.timeline-main').forEach((details) => {
+      const summary = details.querySelector('summary');
+      const panel = details.querySelector<HTMLElement>('.timeline-panel');
+      if (!summary || !panel) return;
+      summary.addEventListener('click', (event) => {
+        if (prefersReducedMotion()) return;
+        event.preventDefault();
+        gsap.killTweensOf(panel);
+        if (!details.open) {
+          details.open = true;
+          gsap.fromTo(panel, { height: 0 }, { height: 'auto', ...layoutTween(), clearProps: 'height' });
+        } else {
+          details.classList.add('is-closing');
+          gsap.to(panel, {
+            height: 0,
+            ...layoutTween(),
+            onComplete: () => {
+              details.open = false;
+              details.classList.remove('is-closing');
+              gsap.set(panel, { clearProps: 'height' });
+            },
+          });
+        }
       });
     });
 
@@ -522,7 +565,11 @@ const stack = [
     transform: rotate(90deg);
   }
 
-  .timeline-main[open] .timeline-toggle {
+  .timeline-panel {
+    overflow: hidden;
+  }
+
+  .timeline-main[open]:not(.is-closing) .timeline-toggle {
     transform: rotate(45deg);
   }
 
