@@ -76,6 +76,13 @@
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
   --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.35);
 
+  /* Liquid-glass nav pill (Apple "regular" variant, approximated: Header.astro). Near-neutral tint,
+     rim, top specular and sheen; no SVG refraction because Safari drops url() backdrop filters. */
+  --glass-tint: rgba(30, 30, 32, 0.45);
+  --glass-rim: rgba(255, 255, 255, 0.14);
+  --glass-specular: rgba(255, 255, 255, 0.16);
+  --glass-sheen: rgba(255, 255, 255, 0.07);
+
   --motion-fast: 150ms;
   --motion-base: 200ms;
   --motion-ease: cubic-bezier(0.2, 0, 0, 1);
@@ -124,6 +131,10 @@
 
   --shadow-panel: 0 18px 42px rgba(24, 24, 24, 0.08);
   --shadow-float: 0 10px 30px rgba(24, 24, 24, 0.1);
+  --glass-tint: rgba(255, 255, 255, 0.55);
+  --glass-rim: rgba(255, 255, 255, 0.7);
+  --glass-specular: rgba(255, 255, 255, 0.9);
+  --glass-sheen: rgba(255, 255, 255, 0.35);
 }
 
 @media (prefers-color-scheme: light) {
@@ -161,6 +172,10 @@
 
     --shadow-panel: 0 18px 42px rgba(24, 24, 24, 0.08);
     --shadow-float: 0 10px 30px rgba(24, 24, 24, 0.1);
+    --glass-tint: rgba(255, 255, 255, 0.55);
+    --glass-rim: rgba(255, 255, 255, 0.7);
+    --glass-specular: rgba(255, 255, 255, 0.9);
+    --glass-sheen: rgba(255, 255, 255, 0.35);
   }
 }
 

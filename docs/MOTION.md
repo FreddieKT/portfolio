@@ -18,8 +18,17 @@ Under `prefers-reduced-motion: reduce` the durations become 0 and view transitio
 1. **Never hide content from JS after it paints.** No GSAP-style `set(opacity: 0)` and then fade in.
    That was the iPhone jank root cause (#57).
 2. **Page navigation is one native crossfade** (`src/styles/motion.css`, `@view-transition`). No
-   per-element entrance on top of it, because stacked fades read as a dim (#50, #51). The header has
-   `view-transition-name` so it holds still.
+   per-element entrance on top of it, because stacked fades read as a dim (#50, #51). Don't give the
+   sticky header a `view-transition-name`. A named element is a backdrop root, which kills the
+   glass blur, and it morphs between its stuck and top states. Identical header pixels already hold
+   still in the root crossfade.
+8. **Sticky header: transparent at the top, liquid-glass pill once scrolled.** The pill fades in
+   over the first 4rem through a CSS scroll timeline. It follows Apple's "regular" Liquid Glass
+   variant: near-neutral tint, blur plus saturation, rim, top specular and sheen (`--glass-*`
+   tokens). It has no SVG refraction, because Safari drops `url()` backdrop filters. Under
+   `prefers-contrast: more` or reduced transparency it becomes an opaque panel. Never put a
+   `filter`, `opacity`, `mask` or `clip-path` on an ancestor of the header. Each of those is a
+   backdrop root too.
 3. **Animate opacity and transform only.** Color, background and border transitions are fine on
    hover/focus. Never animate layout (`gap`, `width`, `height`, `margin`).
 4. **Focus outlines appear instantly.** Keyboard focus and touch press (`:focus-visible`, `:active`)
