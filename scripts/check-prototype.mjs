@@ -164,6 +164,7 @@ assert.deepEqual(motionViolations('.a { transition: color var(--motion-fast) eas
 for (const file of sourceFiles) {
   assert.deepEqual(motionViolations(read(file)), [], `${file}: motion must be colour-only (${motionSpec})`);
 }
+assert.ok(siteHead.indexOf("addEventListener('touchstart'") < siteHead.indexOf('localStorage'), 'touchstart listener must register before localStorage access, which can throw when storage is blocked');
 assert.match(siteHead, /addEventListener\('touchstart',\s*\(\)\s*=>\s*\{\},\s*\{\s*passive:\s*true\s*\}\)/, 'SiteHead must register a passive touchstart listener so iOS Safari applies :active');
 // Drops every `@media (hover: hover) { ... }` block, matching braces so one-line rules inside are handled.
 function stripHoverMedia(css) {
