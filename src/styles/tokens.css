@@ -64,10 +64,9 @@
 
   --shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.45);
 
-  --motion-fast: 160ms;
+  --motion-fast: 150ms;
   --motion-base: 200ms;
-  --lift: -3px;
-  --nudge: 4px;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root[data-theme="light"] {
@@ -148,7 +147,5 @@
   :root {
     --motion-fast: 0ms;
     --motion-base: 0ms;
-    --lift: 0px;
-    --nudge: 0px;
   }
 }

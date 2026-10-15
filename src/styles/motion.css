@@ -1,0 +1,26 @@
+/* Motion system. Rules and history: docs/MOTION.md.
+   Durations and easing live in tokens.css; never hardcode them elsewhere. */
+
+/* Page navigation: native cross-document crossfade. The old page stays on
+   screen until the new one is ready, and the header holds still. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--motion-base);
+  animation-timing-function: var(--motion-ease);
+}
+
+.site-header {
+  view-transition-name: site-header;
+}
+
+/* Theme switch: the view transition crossfades the page, so per-element
+   color transitions are paused for that frame. The toggle icon still turns. */
+.theme-switching *:not(.sun-icon, .moon-icon) {
+  transition: none !important;
+}

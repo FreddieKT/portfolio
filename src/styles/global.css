@@ -1,4 +1,5 @@
 @import './tokens.css';
+@import './motion.css';
 
 :root {
   font-family: var(--font-mono);
@@ -57,9 +58,15 @@ a {
   text-decoration: none;
 }
 
-a:hover,
 a:focus-visible {
   color: var(--accent);
+}
+
+/* Hover only where a real pointer hovers; on touch it sticks after a tap. */
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent);
+  }
 }
 
 img,
@@ -134,14 +141,22 @@ h1.section-label {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: var(--text-xs);
-  transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
+  transition: border-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease);
 }
 
-.nav-pill:hover,
-.nav-pill:focus-visible {
+.nav-pill:focus-visible,
+.nav-pill:active {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+@media (hover: hover) {
+  .nav-pill:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
 }
 
 .primary-pill {
@@ -202,16 +217,6 @@ h1.section-label {
   font-size: var(--text-xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: background var(--motion-fast) ease;
-}
-
-.grid-tags > span:hover {
-  background: var(--accent-soft);
-}
-
-.grid-tags > span:hover .tag-dot {
-  background: currentColor;
-  opacity: 1;
 }
 
 .grid-tags > span + span {
@@ -226,7 +231,6 @@ h1.section-label {
   background: transparent;
   flex-shrink: 0;
   opacity: 0.75;
-  transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
 }
 
 .dashed-panel {

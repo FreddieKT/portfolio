@@ -52,10 +52,23 @@
 
     applyTheme(preferredTheme());
 
+    // One crossfade for the whole page instead of per-element color transitions (docs/MOTION.md).
+    const switchTheme = (theme) => {
+      root.classList.add('theme-switching');
+      applyTheme(theme);
+      getComputedStyle(root).color;
+      requestAnimationFrame(() => root.classList.remove('theme-switching'));
+    };
+
     button.addEventListener('click', () => {
       const nextTheme = root.dataset.theme === 'light' ? 'dark' : 'light';
       window.localStorage.setItem(storageKey, nextTheme);
-      applyTheme(nextTheme);
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (document.startViewTransition && !reduceMotion) {
+        document.startViewTransition(() => switchTheme(nextTheme));
+      } else {
+        switchTheme(nextTheme);
+      }
     });
   })();
 </script>
@@ -77,13 +90,20 @@
     background: var(--interactive-overlay);
     cursor: pointer;
     overflow: hidden;
-    transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
+    transition: border-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease);
   }
 
-  .theme-toggle:hover,
-  .theme-toggle:focus-visible {
+  .theme-toggle:focus-visible,
+  .theme-toggle:active {
     border-color: var(--accent);
     background: var(--accent-soft);
+  }
+
+  @media (hover: hover) {
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
   }
 
   .theme-icon-svg {
@@ -100,13 +120,12 @@
   }
 
   .sun-icon,
-  .moon-icon,
-  .sun-rays {
+  .moon-icon {
     transform-box: fill-box;
     transform-origin: center;
     transition:
-      opacity 220ms ease,
-      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      opacity var(--motion-base) var(--motion-ease),
+      transform var(--motion-base) var(--motion-ease);
   }
 
   .sun-icon {
@@ -124,10 +143,6 @@
     transform: rotate(0deg) scale(1);
   }
 
-  .theme-toggle.is-light .sun-rays {
-    animation: light-rays 650ms ease-out;
-  }
-
   .theme-toggle.is-light .moon-icon {
     opacity: 0;
     transform: rotate(35deg) scale(0.45);
@@ -141,29 +156,5 @@
   .theme-toggle.is-dark .sun-icon {
     opacity: 0;
     transform: rotate(-35deg) scale(0.45);
-  }
-
-  @keyframes light-rays {
-    0% {
-      opacity: 0;
-      transform: rotate(-45deg) scale(0.35);
-    }
-    65% {
-      opacity: 1;
-      transform: rotate(10deg) scale(1.12);
-    }
-    100% {
-      opacity: 1;
-      transform: rotate(0deg) scale(1);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sun-icon,
-    .moon-icon,
-    .sun-rays {
-      animation: none !important;
-      transition: none;
-    }
   }
 </style>

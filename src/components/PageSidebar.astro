@@ -65,7 +65,7 @@ const { items, activeHref, heading } = Astro.props;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-left: 2px solid transparent;
-    transition: color var(--motion-fast) ease, background var(--motion-fast) ease, border-color var(--motion-fast) ease;
+    transition: color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
   }
 
   .sidebar-num {
@@ -74,7 +74,7 @@ const { items, activeHref, heading } = Astro.props;
     color: var(--muted);
     border-right: 1px dashed var(--border);
     padding-right: 0.75rem;
-    transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease;
+    transition: color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
   }
 
   .sidebar-label {
@@ -83,18 +83,29 @@ const { items, activeHref, heading } = Astro.props;
     line-height: 1.35;
   }
 
-  .sidebar-item:hover,
-  .sidebar-item:focus-visible {
+  .sidebar-item:is(:focus-visible, :active) {
     color: var(--accent);
     background: var(--accent-soft);
     border-left-color: var(--accent);
     outline: none;
   }
 
-  .sidebar-item:hover .sidebar-num,
-  .sidebar-item:focus-visible .sidebar-num {
+  .sidebar-item:is(:focus-visible, :active) .sidebar-num {
     color: var(--accent);
     border-right-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .sidebar-item:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar-item:hover .sidebar-num {
+      color: var(--accent);
+      border-right-color: var(--accent);
+    }
   }
 
   .sidebar-item.is-active {

@@ -79,15 +79,20 @@ const sidebarItems = [
     align-items: center;
     gap: 0.75rem;
     padding: 0.9rem 1rem;
-    transition: background var(--motion-fast) ease;
+    transition: background var(--motion-fast) var(--motion-ease);
   }
 
-  .contact-row:hover { background: var(--accent-soft); }
-  .contact-row:hover .contact-dot { background: var(--accent); opacity: 1; }
+  .contact-row:is(:focus-visible, :active) { background: var(--accent-soft); }
+  .contact-row:is(:focus-visible, :active) .contact-dot { background: var(--accent); opacity: 1; }
+
+  @media (hover: hover) {
+    .contact-row:hover { background: var(--accent-soft); }
+    .contact-row:hover .contact-dot { background: var(--accent); opacity: 1; }
+  }
 
 
   .contact-dot {
-    transition: background var(--motion-fast) ease, opacity var(--motion-fast) ease;
+    transition: background var(--motion-fast) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
     width: 0.55rem;
     height: 0.55rem;
     border: 1px solid var(--accent);
