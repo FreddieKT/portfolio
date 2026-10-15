@@ -85,6 +85,7 @@
 
   --motion-fast: 150ms;
   --motion-base: 200ms;
+  --motion-slow: 300ms; /* layout changes driven by GSAP Flip (src/scripts/motion.ts) */
   --motion-ease: cubic-bezier(0.2, 0, 0, 1);
 
   /* Visible height of the stuck header (Header.astro); sticky and anchor offsets sit below it. */
@@ -185,5 +186,6 @@
   :root {
     --motion-fast: 0ms;
     --motion-base: 0ms;
+    --motion-slow: 0ms;
   }
 }

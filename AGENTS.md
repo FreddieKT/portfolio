@@ -13,6 +13,7 @@ Freddie Portfolio is a personal site for Freddie K. It presents current public p
 - Astro
 - TypeScript
 - CSS design tokens
+- GSAP (interaction-only: Flip, see docs/MOTION.md)
 
 ## Commands
 

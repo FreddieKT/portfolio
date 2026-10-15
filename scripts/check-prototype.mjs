@@ -90,7 +90,6 @@ for (const asset of [
   assert.ok(statSync(join(root, asset)).size > 0, `${asset} should exist and be non-empty`);
 }
 
-assert.ok(!pkg.dependencies?.gsap, 'no JS entrance animation: content must render instantly');
 assert.doesNotMatch(index, /gsap|data-animate/i, 'page must not hide content from JS after first paint');
 assert.match(index, /class="section-pointer" href="\/about"/, 'homepage about section should point to the full about page');
 assert.match(index, /class="section-pointer" href="\/labs"/, 'homepage labs section should point to the labs index page');
@@ -135,7 +134,7 @@ assert.deepEqual(stale, [], `stale hardcoded dark component backgrounds: ${stale
 
 // Motion system (docs/MOTION.md): timing lives in tokens.css only; pages crossfade natively.
 const motionTokenFile = 'src/styles/tokens.css';
-const hardcodedMotion = sourceFiles.filter((file) => file !== motionTokenFile && /\b\d+m?s\b|cubic-bezier|\bease(-in|-out|-in-out)?\b/.test(read(file).replace(/var\(--motion-[a-z]+\)/g, '')));
+const hardcodedMotion = sourceFiles.filter((file) => file !== motionTokenFile && /\b\d+m?s\b|cubic-bezier|\bease(-in|-out|-in-out)?\b/.test(read(file).replace(/--motion-[a-z]+/g, '').replace(/\bease\s*:/g, '')));
 assert.deepEqual(hardcodedMotion, [], `motion durations/easing must use tokens: ${hardcodedMotion.join(', ')}`);
 assert.match(read('src/styles/motion.css'), /@view-transition\s*\{\s*navigation:\s*auto/, 'pages must use the native cross-document view transition');
 
@@ -152,5 +151,10 @@ const ungatedHover = sourceFiles.filter((file) => {
   return false;
 });
 assert.deepEqual(ungatedHover, [], `:hover outside @media (hover: hover): ${ungatedHover.join(', ')}`);
+
+// GSAP is for interaction-only layout motion (docs/MOTION.md rule 7): imported only through these files.
+const gsapAllowed = ['src/scripts/motion.ts', 'src/pages/about.astro'];
+const gsapImports = sourceFiles.filter((file) => /from ['"]gsap/.test(read(file)) && !gsapAllowed.includes(file));
+assert.deepEqual(gsapImports, [], `gsap imported outside the interaction allowlist: ${gsapImports.join(', ')}`);
 
 console.log('prototype checks passed');

@@ -22,6 +22,7 @@ const { items, activeHref, heading } = Astro.props;
           class:list={['sidebar-item', item.href === activeHref && 'is-active']}
           href={item.href}
         >
+          {item.href === activeHref && <span class="sidebar-indicator" aria-hidden="true"></span>}
           <span class="sidebar-num">{String(index + 1).padStart(2, '0')}</span>
           <span class="sidebar-label">{item.label}</span>
         </a>
@@ -65,6 +66,8 @@ const { items, activeHref, heading } = Astro.props;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-left: 2px solid transparent;
+    position: relative;
+    isolation: isolate;
     transition: color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
   }
 
@@ -110,8 +113,16 @@ const { items, activeHref, heading } = Astro.props;
 
   .sidebar-item.is-active {
     color: var(--accent);
+  }
+
+  /* One highlight block that lives in the active item. Server-rendered there, so it is right on
+     the first frame; on pages with scroll-spy, GSAP Flip slides it to the next item. */
+  .sidebar-indicator {
+    position: absolute;
+    inset: 0 0 0 -2px;
+    z-index: -1;
     background: var(--accent-soft);
-    border-left-color: var(--accent);
+    border-left: 2px solid var(--accent);
   }
 
   .sidebar-item.is-active .sidebar-num {
