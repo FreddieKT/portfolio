@@ -19,11 +19,11 @@ const { title, description, path = Astro.url.pathname } = Astro.props;
   </head>
   <body>
     <main id="top" class="page-shell">
+      <Header navItems={[
+        { label: 'ABOUT', href: '/about' },
+        { label: 'LABS',  href: '/labs' },
+      ]} />
       <div class="frame page-frame">
-        <Header navItems={[
-          { label: 'ABOUT', href: '/about' },
-          { label: 'LABS',  href: '/labs' },
-        ]} />
         <div class="page-layout">
           <slot name="sidebar" />
           <div class="page-main">
@@ -38,7 +38,7 @@ const { title, description, path = Astro.url.pathname } = Astro.props;
 
 <style>
   .page-frame {
-    padding: 1rem 1rem 0.75rem;
+    padding: 0 1rem 0.75rem;
   }
 
   .page-layout {
@@ -57,7 +57,7 @@ const { title, description, path = Astro.url.pathname } = Astro.props;
 
   @media (max-width: 768px) {
     .page-frame {
-      padding: 0.75rem;
+      padding: 0 0.75rem 0.75rem;
     }
 
     .page-layout {

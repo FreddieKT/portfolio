@@ -15,9 +15,10 @@
   animation-timing-function: var(--motion-ease);
 }
 
-.site-header {
-  view-transition-name: site-header;
-}
+/* The header has no view-transition-name on purpose. A named element is a backdrop root, so its
+   liquid-glass pill could not blur the page behind it. Named, it also morphed between a stuck,
+   pill-on header and a fresh one at the top (the brief "header grows"). In the root crossfade,
+   identical header pixels on both pages simply stay put. */
 
 /* Theme switch: the view transition crossfades the page, so per-element
    color transitions are paused for that frame. The toggle icon still turns. */
@@ -33,5 +34,46 @@
 }
 
 section[id] {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: calc(var(--header-stuck) + 1.5rem);
+}
+
+/* Sticky header: the floating pill fades and settles in over the first 4rem of scroll
+   (scroll-driven, no JS). Opacity and transform only. */
+@supports (animation-timeline: scroll()) {
+  .site-header::before {
+    /* Hidden until the timeline resolves, so the first frame never flashes the pill. */
+    opacity: 0;
+    animation: header-float linear both;
+  }
+
+  /* Separate selector on purpose: the minifier folds a same-rule animation-timeline into the
+     animation shorthand, which browsers reject. */
+  html .site-header::before {
+    animation-timeline: scroll(root);
+    animation-range: 0 4rem;
+  }
+}
+
+@keyframes header-float {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes header-float {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
 }

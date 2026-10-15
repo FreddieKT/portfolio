@@ -33,7 +33,7 @@ const { items, activeHref, heading } = Astro.props;
 <style>
   .page-sidebar {
     position: sticky;
-    top: 1.5rem;
+    top: calc(var(--header-stuck) + 1rem);
     border: var(--border-solid);
     background: var(--panel-overlay);
     border-radius: var(--radius-md);

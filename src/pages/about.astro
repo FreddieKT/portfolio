@@ -123,22 +123,22 @@ const stack = [
     <section id="timeline" class="page-section frame" aria-labelledby="timeline-heading">
       <SectionLabel id="timeline-heading">Education</SectionLabel>
       <ol class="timeline">
-        {timeline.map((item, i) => (
+        {timeline.map((item) => (
           <li class="timeline-row">
             <span class="timeline-year">{item.year}</span>
             <span class="timeline-logo" aria-hidden="true">
               {item.logo && <img src={item.logo.src} alt="" height="28" loading="lazy" decoding="async" class:list={[{ mono: item.mono, tint: item.tint }]} />}
             </span>
-            <div class="timeline-main">
-              <button class="timeline-head" type="button" aria-expanded="false" aria-controls={`tl-panel-${i}`}>
+            <details class="timeline-main">
+              <summary class="timeline-head">
                 <span class="timeline-text">
                   {item.text}
                   <span class="timeline-where">{item.where}</span>
                   <span class="timeline-subjects">{item.subjects}</span>
                 </span>
                 <span class="timeline-toggle" aria-hidden="true"></span>
-              </button>
-              <div class="timeline-panel" id={`tl-panel-${i}`}>
+              </summary>
+              <div class="timeline-panel">
                 <div class="timeline-inner">
                   <p class="timeline-label">{item.label}</p>
                   <ul class="timeline-units">
@@ -146,7 +146,7 @@ const stack = [
                   </ul>
                 </div>
               </div>
-            </div>
+            </details>
           </li>
         ))}
       </ol>
@@ -235,15 +235,6 @@ const stack = [
       });
     });
 
-    const timeline = document.querySelector('.timeline');
-    timeline?.classList.add('js');
-    timeline?.querySelectorAll('.timeline-head').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const open = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!open));
-        btn.closest('.timeline-row')?.classList.toggle('is-open', !open);
-      });
-    });
   </script>
 </PageLayout>
 
@@ -478,6 +469,11 @@ const stack = [
     font: inherit;
     text-align: left;
     cursor: pointer;
+    list-style: none;
+  }
+
+  .timeline-head::-webkit-details-marker {
+    display: none;
   }
 
   .timeline-head:focus-visible .timeline-text {
@@ -526,33 +522,20 @@ const stack = [
     transform: rotate(90deg);
   }
 
-  .timeline-row.is-open .timeline-toggle {
+  .timeline-main[open] .timeline-toggle {
     transform: rotate(45deg);
   }
 
-  .timeline.js .timeline-panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    visibility: hidden;
+  /* Native <details>: closed from the first paint, no JS to hide it after (docs/MOTION.md rule 1).
+     Opening fades the content in as the icon turns; height snaps (no layout animation). */
+  .timeline-main[open] .timeline-inner {
+    animation: timeline-reveal var(--motion-base) var(--motion-ease);
   }
 
-  .timeline.js .is-open .timeline-panel {
-    grid-template-rows: 1fr;
-    visibility: visible;
-  }
-
-  .timeline-inner {
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .timeline.js .timeline-inner {
-    opacity: 0;
-    transition: opacity var(--motion-base) var(--motion-ease);
-  }
-
-  .timeline.js .is-open .timeline-inner {
-    opacity: 1;
+  @keyframes timeline-reveal {
+    from {
+      opacity: 0;
+    }
   }
 
   .timeline-label {

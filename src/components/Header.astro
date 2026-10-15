@@ -35,7 +35,42 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     column-gap: var(--space-5);
-    padding-block: var(--space-2) var(--space-4);
+    /* Sticks for the whole scroll. The extra 1rem on top scrolls away (top: -1rem), so the stuck
+       bar stays compact. At the top it is transparent, so the page's wash and grid show through. */
+    position: sticky;
+    top: -1rem;
+    z-index: 10;
+    padding: calc(1rem + var(--space-2)) 1rem var(--space-4);
+  }
+  /* Floating pill behind the nav, drawn on its own layer so the nav never moves. motion.css fades
+     it in once the page scrolls; without scroll timelines it simply stays on. */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 1.125rem 0.25rem 0.625rem;
+    z-index: -1;
+    border: 1px solid var(--glass-rim);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, var(--glass-sheen), transparent 45%),
+      var(--glass-tint);
+    -webkit-backdrop-filter: blur(6px) saturate(160%);
+    backdrop-filter: blur(6px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 var(--glass-specular),
+      inset 0 -1px 0 var(--glass-sheen),
+      var(--shadow-float);
+  }
+  /* Opaque fallback where glass can't blur or the viewer wants contrast. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header::before { background: var(--panel-overlay); }
+  }
+  @media (prefers-contrast: more), (prefers-reduced-transparency: reduce) {
+    .site-header::before {
+      background: var(--panel-overlay);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
   .brand-mark {
     display: inline-flex;
@@ -100,8 +135,12 @@ const current = (href: string) => pathname === href ? 'page' : pathname.startsWi
     box-shadow: none;
   }
   .theme-control :global(.theme-toggle:active) { background: var(--accent-soft); }
+  @media (max-width: 768px) {
+    .site-header { padding-inline: 0.75rem; }
+  }
   @media (max-width: 600px) {
     .site-header { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-2); row-gap: var(--space-3); }
+    .site-header::before { border-radius: var(--radius-lg); }
     .theme-control { grid-column: 2; grid-row: 1; }
     .main-nav { grid-column: 1 / -1; grid-row: 2; gap: var(--space-1); width: 100%; }
     .nav-link { flex: 1; }
