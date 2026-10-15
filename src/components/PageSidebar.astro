@@ -21,7 +21,6 @@ const { items, activeHref, heading } = Astro.props;
         <a
           class:list={['sidebar-item', item.href === activeHref && 'is-active']}
           href={item.href}
-          data-animate="sidebar-item"
         >
           <span class="sidebar-num">{String(index + 1).padStart(2, '0')}</span>
           <span class="sidebar-label">{item.label}</span>
@@ -84,18 +83,31 @@ const { items, activeHref, heading } = Astro.props;
     line-height: 1.35;
   }
 
-  .sidebar-item:hover,
-  .sidebar-item:focus-visible {
+  .sidebar-item:focus-visible,
+  .sidebar-item:active {
     color: var(--accent);
     background: var(--accent-soft);
     border-left-color: var(--accent);
     outline: none;
   }
 
-  .sidebar-item:hover .sidebar-num,
-  .sidebar-item:focus-visible .sidebar-num {
+  .sidebar-item:focus-visible .sidebar-num,
+  .sidebar-item:active .sidebar-num {
     color: var(--accent);
     border-right-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .sidebar-item:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar-item:hover .sidebar-num {
+      color: var(--accent);
+      border-right-color: var(--accent);
+    }
   }
 
   .sidebar-item.is-active {

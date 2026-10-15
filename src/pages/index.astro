@@ -24,7 +24,7 @@ import { projects } from '../data/projects';
       </section>
 
       <section class="content-stack" aria-label="FREDDIE K. portfolio sections">
-        <section id="about" class="section-panel frame" aria-labelledby="about-title" data-animate="section-panel">
+        <section id="about" class="section-panel frame" aria-labelledby="about-title">
           <SectionLabel id="about-title">About</SectionLabel>
           <p class="mono-copy">
             I’m figuring out where these tools are useful to me by trying them on projects.
@@ -35,7 +35,7 @@ import { projects } from '../data/projects';
 
 
 
-        <section id="work" class="section-panel frame" aria-labelledby="work-title" data-animate="section-panel">
+        <section id="work" class="section-panel frame" aria-labelledby="work-title">
           <SectionLabel id="work-title">Projects & Experiments</SectionLabel>
           <ul class="project-list" aria-label="Projects">
             {projects.map((project) => <ProjectCard project={project} />)}
@@ -46,53 +46,6 @@ import { projects } from '../data/projects';
 
       <FooterStatus />
     </main>
-
-    <script>
-      import { gsap } from 'gsap';
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (!reduceMotion) {
-        // Hero sub-elements
-        gsap.set('[data-animate="hero-portrait"]', { autoAlpha: 0, scale: 0.96, y: 10 });
-        gsap.set('[data-animate="hero-eyebrow"]', { autoAlpha: 0, y: 10 });
-        gsap.set('[data-animate="hero-heading"]', { autoAlpha: 0, y: 18 });
-        gsap.set('[data-animate="hero-subhead"]', { autoAlpha: 0, y: 14 });
-        gsap.set('[data-animate="hero-tag"]', { autoAlpha: 0, x: -10 });
-
-        gsap.set('[data-animate="section-panel"], [data-animate="project-card"]', {
-          autoAlpha: 0,
-          y: 18,
-        });
-
-        const heroTl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-        heroTl
-          .to('[data-animate="hero-portrait"]', { autoAlpha: 1, scale: 1, y: 0, duration: 0.65 })
-          .to('[data-animate="hero-eyebrow"]',  { autoAlpha: 1, y: 0, duration: 0.4 }, '-=0.35')
-          .to('[data-animate="hero-heading"]',  { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.28')
-          .to('[data-animate="hero-subhead"]',  { autoAlpha: 1, y: 0, duration: 0.4 }, '-=0.22')
-          .to('[data-animate="hero-tag"]',      { autoAlpha: 1, x: 0, duration: 0.32, stagger: 0.07 }, '-=0.18');
-
-        gsap.to('[data-animate="section-panel"]', {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.55,
-          ease: 'power2.out',
-          stagger: 0.08,
-          delay: 0.08,
-        });
-
-        gsap.to('[data-animate="project-card"]', {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.55,
-          ease: 'power2.out',
-          stagger: 0.07,
-          delay: 0.22,
-        });
-
-      }
-    </script>
   </body>
 </html>
 
@@ -130,10 +83,17 @@ import { projects } from '../data/projects';
     text-transform: uppercase;
   }
 
-  .section-pointer:hover,
-  .section-pointer:focus-visible {
+  .section-pointer:focus-visible,
+  .section-pointer:active {
     text-decoration: underline;
     text-underline-offset: 0.25rem;
+  }
+
+  @media (hover: hover) {
+    .section-pointer:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.25rem;
+    }
   }
 
   .project-list {

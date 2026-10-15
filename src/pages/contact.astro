@@ -13,12 +13,12 @@ const sidebarItems = [
 
   <div class="contact-content">
 
-    <header class="page-section frame" data-animate="page-section">
+    <header class="page-section frame">
       <SectionLabel as="h1">Contact</SectionLabel>
       <p class="mono-copy">You can find me on GitHub, X, or email.</p>
     </header>
 
-    <section class="page-section frame" aria-label="Contact methods and status" data-animate="page-section">
+    <section class="page-section frame" aria-label="Contact methods and status">
       <SectionLabel>Links</SectionLabel>
       <ul class="contact-list">
         <li>
@@ -82,8 +82,13 @@ const sidebarItems = [
     transition: background var(--motion-fast) ease;
   }
 
-  .contact-row:hover { background: var(--accent-soft); }
-  .contact-row:hover .contact-dot { background: var(--accent); opacity: 1; }
+  .contact-row:active { background: var(--accent-soft); }
+  .contact-row:active .contact-dot { background: var(--accent); opacity: 1; }
+
+  @media (hover: hover) {
+    .contact-row:hover { background: var(--accent-soft); }
+    .contact-row:hover .contact-dot { background: var(--accent); opacity: 1; }
+  }
 
 
   .contact-dot {

@@ -16,6 +16,32 @@
   box-sizing: border-box;
 }
 
+/* Page transition: the browser cross-fades page snapshots (opacity only); real content never animates.
+ * The header keeps a fixed name and no animation, so only the content changes. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: var(--motion-page);
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
 html {
   -webkit-tap-highlight-color: transparent;
   min-width: 320px;
@@ -57,9 +83,15 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus-visible {
+a:focus-visible,
+a:active {
   color: var(--accent);
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent);
+  }
 }
 
 img,
@@ -137,11 +169,19 @@ h1.section-label {
   transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, background var(--motion-fast) ease;
 }
 
-.nav-pill:hover,
-.nav-pill:focus-visible {
+.nav-pill:focus-visible,
+.nav-pill:active {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+@media (hover: hover) {
+  .nav-pill:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
 }
 
 .primary-pill {
@@ -205,13 +245,15 @@ h1.section-label {
   transition: background var(--motion-fast) ease;
 }
 
-.grid-tags > span:hover {
-  background: var(--accent-soft);
-}
+@media (hover: hover) {
+  .grid-tags > span:hover {
+    background: var(--accent-soft);
+  }
 
-.grid-tags > span:hover .tag-dot {
-  background: currentColor;
-  opacity: 1;
+  .grid-tags > span:hover .tag-dot {
+    background: currentColor;
+    opacity: 1;
+  }
 }
 
 .grid-tags > span + span {

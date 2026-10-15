@@ -17,7 +17,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
 
   <div class="notes-content">
 
-    <header class="page-section frame" data-animate="page-section">
+    <header class="page-section frame">
       <SectionLabel as="h1">Notes</SectionLabel>
       <p class="mono-copy">Notes from things I've tried and want to remember.</p>
     </header>
@@ -27,7 +27,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
         {notes.map((note) => {
           const slug = note.id.replace(/\.md$/, '');
           return (
-            <article class="note-card frame" data-animate="page-section">
+            <article class="note-card frame">
               <div class="note-meta">
                 <time class="note-date" datetime={note.data.date}>{note.data.date}</time>
                 <span class="note-publisher" aria-label="Publisher">· {note.data.publisher}</span>
@@ -51,7 +51,7 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
         })}
       </div>
     ) : (
-      <section class="page-section frame" data-animate="page-section">
+      <section class="page-section frame">
         <div class="empty-state">// no notes yet</div>
       </section>
     )}
@@ -86,8 +86,14 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     transition: border-color var(--motion-fast) ease;
   }
 
-  .note-card:hover {
+  .note-card:active {
     border-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .note-card:hover {
+      border-color: var(--accent);
+    }
   }
 
   /* Meta row — date + publisher + tags */
@@ -135,11 +141,17 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
   .note-title a {
     color: var(--foreground);
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: color var(--motion-fast) ease;
   }
 
-  .note-title a:hover {
+  .note-title a:active {
     color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    .note-title a:hover {
+      color: var(--accent);
+    }
   }
 
   /* Summary */
@@ -161,11 +173,16 @@ const sidebarItems = [{ label: 'ALL NOTES', href: '/notes' }];
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-top: 0.25rem;
-    transition: gap var(--motion-fast) ease;
   }
 
-  .note-read-link:hover {
-    gap: 0.75rem;
+  .note-read-link:active {
+    text-decoration: underline;
+  }
+
+  @media (hover: hover) {
+    .note-read-link:hover {
+      text-decoration: underline;
+    }
   }
 
   .empty-state {

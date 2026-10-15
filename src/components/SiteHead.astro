@@ -33,6 +33,7 @@ const imageUrl = new URL(site.ogImage, siteOrigin).toString();
 <title>{fullTitle}</title>
 
 <script is:inline>
+  document.addEventListener('touchstart', () => {}, { passive: true });
   const t = localStorage.getItem('freddie-portfolio-theme');
   if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
 </script>

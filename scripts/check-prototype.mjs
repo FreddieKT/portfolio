@@ -62,11 +62,11 @@ assert.match(themeToggle, /height:\s*2\.75rem/, 'theme toggle should keep a comp
 assert.match(themeToggle, /theme-icon-svg/, 'theme toggle should use an SVG icon, not the old CSS-only dot');
 assert.match(themeToggle, /class="moon-icon"/, 'theme toggle needs a visible moon icon group');
 assert.match(themeToggle, /class="sun-icon"/, 'theme toggle needs a visible sun icon group');
-assert.match(themeToggle, /sun-rays/, 'theme toggle should include animated light-mode rays');
+assert.match(themeToggle, /sun-rays/, 'theme toggle should include light-mode rays');
 assert.match(themeToggle, /freddie-portfolio-theme/, 'theme toggle should use the freddie-portfolio localStorage key');
 assert.doesNotMatch(themeToggle + pageLayout, /ktt-dev-theme/, 'no source file should reference the old ktt-dev-theme localStorage key');
 assert.match(themeToggle, /vector-effect="non-scaling-stroke"/, 'theme icon strokes should render crisply and reliably');
-assert.match(themeToggle, /transition:/, 'theme toggle icon should animate between light and dark states');
+assert.doesNotMatch(themeToggle, /@keyframes|animation:/, 'theme toggle icon swaps instantly (motion is colour-only)');
 assert.match(index, /<SiteHead\s*\/>/, 'homepage should use shared SiteHead metadata component');
 assert.match(read('src/layouts/PageLayout.astro'), /<SiteHead[\s\S]*path=\{path\}/, 'inner pages should use shared SiteHead metadata component');
 assert.match(siteHead, /rel="canonical"/, 'shared head should render canonical URLs');
@@ -90,8 +90,7 @@ for (const asset of [
   assert.ok(statSync(join(root, asset)).size > 0, `${asset} should exist and be non-empty`);
 }
 
-assert.ok(pkg.dependencies?.gsap, 'gsap dependency must be installed');
-assert.match(index, /gsap/i, 'page must load GSAP animation script');
+assert.ok(!pkg.dependencies?.gsap && !pkg.devDependencies?.gsap, 'gsap must not be installed: motion is CSS colour-only (see docs/superpowers/specs/2026-10-14-motion-refactor-design.md)');
 assert.match(index, /class="section-pointer" href="\/about"/, 'homepage about section should point to the full about page');
 assert.match(index, /class="section-pointer" href="\/labs"/, 'homepage labs section should point to the labs index page');
 assert.doesNotMatch(index, /mini-preview-grid/, 'homepage should avoid dense preview-card grids');
@@ -129,6 +128,76 @@ function walk(dir) {
 }
 
 const sourceFiles = walk('src').filter((file) => /\.(astro|css|ts)$/.test(file));
+
+// Motion guard: colour-only feedback. See docs/superpowers/specs/2026-10-14-motion-refactor-design.md
+const motionSpec = 'docs/superpowers/specs/2026-10-14-motion-refactor-design.md';
+function motionViolations(source) {
+  const text = source.replace(/\/\*[\s\S]*?\*\//g, ''); // comments are prose, not declarations
+  const found = [];
+  if (/\bgsap\b|data-animate/.test(text)) found.push('entrance animation (gsap/data-animate)');
+  // Allowlist from the spec: only colour-ish properties (and small-icon opacity) may transition.
+  const allowed = /^(none|color|opacity|outline-color|background(-color)?|border(-(top|right|bottom|left))?-color)$/;
+  for (const [, value] of text.matchAll(/transition(?:-property)?:\s*([^;]+);/g)) {
+    for (const part of value.split(',')) {
+      const prop = part.trim().split(/\s+/)[0];
+      if (!allowed.test(prop)) found.push(`transition of "${prop}"`);
+    }
+  }
+  for (const [, body] of text.matchAll(/:(?:hover|active|focus-visible)[^{]*\{([^}]*)\}/g)) {
+    if (/(^|[;{\s])(transform|translate|scale|rotate|margin(-\w+)?|padding(-\w+)?|top|right|bottom|left|gap|width|height)\s*:/.test(body)) {
+      found.push(`moving state rule: ${body.trim()}`);
+    }
+  }
+  // Keyframes (incl. view-transition overrides) may only animate opacity.
+  for (const [, name, body] of text.matchAll(/@keyframes\s+([\w-]+)\s*\{([\s\S]*?\})\s*\}/g)) {
+    for (const [, prop] of body.matchAll(/([\w-]+)\s*:/g)) {
+      if (prop !== 'opacity') found.push(`keyframes ${name} animates "${prop}"`);
+    }
+  }
+  return found;
+}
+// Self-check: each sample must be caught, so the guard cannot silently weaken.
+for (const sample of [
+  '.a { transition-property: transform; }',
+  '.a { transition: translate 150ms ease; }',
+  '.a { transition: margin-left 150ms ease; }',
+  '.a:hover { translate: 0 -2px; }',
+  '.a:hover { margin-top: -3px; }',
+  '.a:focus-visible { transform: scale(1.1); }',
+  '@keyframes slide-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }',
+]) {
+  assert.notDeepEqual(motionViolations(sample), [], `motion guard missed: ${sample}`);
+}
+assert.deepEqual(motionViolations('/* Page transition: the browser fades */ .a { transition: color var(--motion-fast) ease, border-left-color var(--motion-fast) ease; } .a:focus-visible { outline-offset: 2px; text-underline-offset: 0.25rem; }'), [], 'motion guard flags allowed colour transitions');
+for (const file of sourceFiles) {
+  assert.deepEqual(motionViolations(read(file)), [], `${file}: motion must be colour-only (${motionSpec})`);
+}
+// Page transition: native cross-document fade, off under reduced motion, header held still.
+assert.match(globalCss, /@media \(prefers-reduced-motion: no-preference\) \{\s*@view-transition \{\s*navigation: auto;/, 'page transitions use native @view-transition, enabled only without reduced motion');
+assert.match(globalCss, /::view-transition-group\(site-header\)\s*\{\s*animation: none;/, 'header must not animate during page transitions');
+assert.match(header, /view-transition-name: site-header;/, 'header needs a view-transition-name so it stays still across pages');
+assert.match(tokenCss, /--motion-page: 200ms;/, 'page transition duration comes from one token');
+assert.ok(siteHead.indexOf("addEventListener('touchstart'") < siteHead.indexOf('localStorage'), 'touchstart listener must register before localStorage access, which can throw when storage is blocked');
+assert.match(siteHead, /addEventListener\('touchstart',\s*\(\)\s*=>\s*\{\},\s*\{\s*passive:\s*true\s*\}\)/, 'SiteHead must register a passive touchstart listener so iOS Safari applies :active');
+// Drops every `@media (hover: hover) { ... }` block, matching braces so one-line rules inside are handled.
+function stripHoverMedia(css) {
+  const open = /@media\s*\(hover:\s*hover\)\s*\{/g;
+  let out = '';
+  let from = 0;
+  for (let m; (m = open.exec(css)); ) {
+    out += css.slice(from, m.index);
+    let depth = 1;
+    let i = open.lastIndex;
+    while (depth && i < css.length) depth += css[i] === '{' ? 1 : css[i] === '}' ? -1 : 0, i++;
+    from = open.lastIndex = i;
+  }
+  return out + css.slice(from);
+}
+for (const file of sourceFiles.filter((f) => f.endsWith('.astro') || f.endsWith('.css'))) {
+  const text = read(file);
+  const ungated = stripHoverMedia(text).match(/[^\n]*:hover[^\n]*/g) ?? [];
+  assert.deepEqual(ungated, [], `${file}: :hover must live inside @media (hover: hover)`);
+}
 const staleDarkPattern = /background:\s*rgba\(10, 13, 18, 0\.92\)/;
 const stale = sourceFiles.filter((file) => staleDarkPattern.test(read(file)));
 assert.deepEqual(stale, [], `stale hardcoded dark component backgrounds: ${stale.join(', ')}`);
