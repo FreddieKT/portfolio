@@ -1,6 +1,8 @@
 import type { ImageMetadata } from 'astro';
 import terrariumImage from '../assets/images/projects/terrarium-hero.png';
 import terrariumFront from '../assets/images/projects/terrarium-front.png';
+import xlabLanding from '../assets/images/projects/xlab-landing.webp';
+import xlabControl from '../assets/images/projects/xlab-control.webp';
 
 export interface Project {
   index: string;
@@ -19,6 +21,7 @@ export interface Project {
   imageAlt?: string;
   secondaryImage?: ImageMetadata;
   secondaryImageAlt?: string;
+  secondaryImageCaption?: string;
 }
 
 export const projects: Project[] = [
@@ -35,6 +38,11 @@ export const projects: Project[] = [
     status: 'active development',
     nextStep: 'Run the synthetic OrderBot Retail showcase before any real customer onboarding.',
     sourceUrl: 'https://github.com/FreddieKT/xlab-agent-platform',
+    image: xlabLanding,
+    imageAlt: 'X-Lab public landing page with the headline "Identity-rich agents, deployed with review."',
+    secondaryImage: xlabControl,
+    secondaryImageAlt: 'X-Lab agent control center showing the agent catalog, deployments table and setup checklist, rendered locally with demo data.',
+    secondaryImageCaption: 'Demo data: rendered locally with a mocked API. Customers, counts and dates are made up.',
   },
 
   {

@@ -59,7 +59,12 @@ const sidebarItems = projects.map((p) => ({
         <h2>Status</h2>
         <p>{project.status}</p>
 
-        {project.secondaryImage && <Image class="project-image" src={project.secondaryImage} alt={project.secondaryImageAlt ?? project.title} widths={[480, 800, 1200]} sizes="(max-width: 720px) 90vw, 800px" loading="lazy" />}
+        {project.secondaryImage && (
+          <figure class="project-figure">
+            <Image class="project-image" src={project.secondaryImage} alt={project.secondaryImageAlt ?? project.title} widths={[480, 800, 1200]} sizes="(max-width: 720px) 90vw, 800px" loading="lazy" />
+            {project.secondaryImageCaption && <figcaption>{project.secondaryImageCaption}</figcaption>}
+          </figure>
+        )}
         {project.nextStep && <><h2>Next step</h2><p>{project.nextStep}</p></>}
 
         {project.sourceUrl && <><h2>Source</h2><p><a href={project.sourceUrl} target="_blank" rel="noreferrer">View the repository on GitHub ↗</a></p></>}
@@ -74,6 +79,9 @@ const sidebarItems = projects.map((p) => ({
 </PageLayout>
 
 <style>
+  .project-figure { margin: 1rem 0; }
+  .project-figure .project-image { margin-bottom: 0.5rem; }
+  .project-figure figcaption { font-size: var(--text-xs); color: var(--muted); letter-spacing: 0.04em; }
   .project-image { display: block; width: 100%; height: auto; border-radius: var(--radius-md); margin: 1rem 0; }
   .labs-detail {
     display: grid;
